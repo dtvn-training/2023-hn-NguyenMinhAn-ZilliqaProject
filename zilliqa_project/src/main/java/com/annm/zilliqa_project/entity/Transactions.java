@@ -3,21 +3,21 @@ package com.annm.zilliqa_project.entity;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "transactions")
 public class Transactions {
     @Id
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "transaction_id")
-    private String transactionId;
+    private int transactionId;
 
-    @Column(name = "block_number")
-    private int blockNumber;
+    @ManyToOne
+    @JoinColumn
+    private Blocks blocks;
+
     @Column(name = "block_timestamp")
-    private Date blockTimestamp;
+    private String blockTimestamp;
 
     @Column(name = "amount")
     private int amount;
@@ -34,9 +34,8 @@ public class Transactions {
     @Column(name = "sender")
     private String sender;
 
-    @Lob
     @Column(name = "signature")
-    private byte[] signature;
+    private String signature;
 
     @Column(name = "to_addr")
     private String toAddress;
@@ -53,70 +52,51 @@ public class Transactions {
     @Column(name = "epoch_num")
     private int epochNum;
 
-    public Transactions(int id, String transactionId, int blockNumber, Date blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, byte[] signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum) {
-        this.id = id;
-        this.transactionId = transactionId;
-        this.blockNumber = blockNumber;
-        this.blockTimestamp = blockTimestamp;
-        this.amount = amount;
-        this.gasLimit = gasLimit;
-        this.gasPrice = gasPrice;
-        this.senderPubKey = senderPubKey;
-        this.sender = sender;
-        this.signature = signature;
-        this.toAddress = toAddress;
-        this.version = version;
-        this.success = success;
-        this.cumulativeGas = cumulativeGas;
-        this.epochNum = epochNum;
+    @OneToMany(mappedBy = "transactions")
+    private List<Exceptions> exceptions;
+
+    @Override
+    public String toString() {
+        return "Transactions{" +
+                "transactionId=" + transactionId +
+                ", blocks=" + blocks +
+                ", blockTimestamp='" + blockTimestamp + '\'' +
+                ", amount=" + amount +
+                ", gasLimit=" + gasLimit +
+                ", gasPrice=" + gasPrice +
+                ", senderPubKey='" + senderPubKey + '\'' +
+                ", sender='" + sender + '\'' +
+                ", signature='" + signature + '\'' +
+                ", toAddress='" + toAddress + '\'' +
+                ", version=" + version +
+                ", success=" + success +
+                ", cumulativeGas=" + cumulativeGas +
+                ", epochNum=" + epochNum +
+                ", exceptions=" + exceptions +
+                '}';
     }
 
-    public Transactions(String transactionId, int blockNumber, Date blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, byte[] signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum) {
-        this.transactionId = transactionId;
-        this.blockNumber = blockNumber;
-        this.blockTimestamp = blockTimestamp;
-        this.amount = amount;
-        this.gasLimit = gasLimit;
-        this.gasPrice = gasPrice;
-        this.senderPubKey = senderPubKey;
-        this.sender = sender;
-        this.signature = signature;
-        this.toAddress = toAddress;
-        this.version = version;
-        this.success = success;
-        this.cumulativeGas = cumulativeGas;
-        this.epochNum = epochNum;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTransactionId() {
+    public int getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
 
-    public int getBlockNumber() {
-        return blockNumber;
+    public Blocks getBlocks() {
+        return blocks;
     }
 
-    public void setBlockNumber(int blockNumber) {
-        this.blockNumber = blockNumber;
+    public void setBlocks(Blocks blocks) {
+        this.blocks = blocks;
     }
 
-    public Date getBlockTimestamp() {
+    public String getBlockTimestamp() {
         return blockTimestamp;
     }
 
-    public void setBlockTimestamp(Date blockTimestamp) {
+    public void setBlockTimestamp(String blockTimestamp) {
         this.blockTimestamp = blockTimestamp;
     }
 
@@ -160,11 +140,11 @@ public class Transactions {
         this.sender = sender;
     }
 
-    public byte[] getSignature() {
+    public String getSignature() {
         return signature;
     }
 
-    public void setSignature(byte[] signature) {
+    public void setSignature(String signature) {
         this.signature = signature;
     }
 
@@ -208,24 +188,49 @@ public class Transactions {
         this.epochNum = epochNum;
     }
 
-    @Override
-    public String toString() {
-        return "Transactions{" +
-                "id=" + id +
-                ", transactionId='" + transactionId + '\'' +
-                ", blockNumber=" + blockNumber +
-                ", blockTimestamp=" + blockTimestamp +
-                ", amount=" + amount +
-                ", gasLimit=" + gasLimit +
-                ", gasPrice=" + gasPrice +
-                ", senderPubKey='" + senderPubKey + '\'' +
-                ", sender='" + sender + '\'' +
-                ", signature=" + Arrays.toString(signature) +
-                ", toAddress='" + toAddress + '\'' +
-                ", version=" + version +
-                ", success=" + success +
-                ", cumulativeGas=" + cumulativeGas +
-                ", epochNum=" + epochNum +
-                '}';
+    public List<Exceptions> getExceptions() {
+        return exceptions;
+    }
+
+    public void setExceptions(List<Exceptions> exceptions) {
+        this.exceptions = exceptions;
+    }
+
+    public Transactions() {
+    }
+
+    public Transactions(Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+        this.blocks = blocks;
+        this.blockTimestamp = blockTimestamp;
+        this.amount = amount;
+        this.gasLimit = gasLimit;
+        this.gasPrice = gasPrice;
+        this.senderPubKey = senderPubKey;
+        this.sender = sender;
+        this.signature = signature;
+        this.toAddress = toAddress;
+        this.version = version;
+        this.success = success;
+        this.cumulativeGas = cumulativeGas;
+        this.epochNum = epochNum;
+        this.exceptions = exceptions;
+    }
+
+    public Transactions(int transactionId, Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+        this.transactionId = transactionId;
+        this.blocks = blocks;
+        this.blockTimestamp = blockTimestamp;
+        this.amount = amount;
+        this.gasLimit = gasLimit;
+        this.gasPrice = gasPrice;
+        this.senderPubKey = senderPubKey;
+        this.sender = sender;
+        this.signature = signature;
+        this.toAddress = toAddress;
+        this.version = version;
+        this.success = success;
+        this.cumulativeGas = cumulativeGas;
+        this.epochNum = epochNum;
+        this.exceptions = exceptions;
     }
 }

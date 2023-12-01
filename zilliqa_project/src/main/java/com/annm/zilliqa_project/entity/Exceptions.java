@@ -1,9 +1,6 @@
 package com.annm.zilliqa_project.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,13 +11,8 @@ public class Exceptions {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "block_number")
-    private int blockNumber;
     @Column(name = "block_timestamp")
-    private Date blockTimestamp;
-
-    @Column(name = "transaction_id")
-    private String transactionId;
+    private String blockTimestamp;
 
     @Column(name = "index")
     private int index;
@@ -29,31 +21,25 @@ public class Exceptions {
     @Column(name = "message")
     private String message;
 
-    public Exceptions(int blockNumber, Date blockTimestamp, String transactionId, int index, int line, String message) {
-        this.blockNumber = blockNumber;
-        this.blockTimestamp = blockTimestamp;
-        this.transactionId = transactionId;
-        this.index = index;
-        this.line = line;
-        this.message = message;
-    }
+    @ManyToOne
+    @JoinColumn(name = "block_number", referencedColumnName = "number")
+    private Blocks blocks;
 
-    public Exceptions(Date blockTimestamp, String transactionId, int index, int line, String message) {
-        this.blockTimestamp = blockTimestamp;
-        this.transactionId = transactionId;
-        this.index = index;
-        this.line = line;
-        this.message = message;
-    }
+    @ManyToOne
+    @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
+    private Transactions transactions;
 
-    public Exceptions(int id, int blockNumber, Date blockTimestamp, String transactionId, int index, int line, String message) {
-        this.id = id;
-        this.blockNumber = blockNumber;
-        this.blockTimestamp = blockTimestamp;
-        this.transactionId = transactionId;
-        this.index = index;
-        this.line = line;
-        this.message = message;
+    @Override
+    public String toString() {
+        return "Exceptions{" +
+                "id=" + id +
+                ", blockTimestamp='" + blockTimestamp + '\'' +
+                ", index=" + index +
+                ", line=" + line +
+                ", message='" + message + '\'' +
+                ", blocks=" + blocks +
+                ", transactions=" + transactions +
+                '}';
     }
 
     public int getId() {
@@ -64,29 +50,17 @@ public class Exceptions {
         this.id = id;
     }
 
-    public int getBlockNumber() {
-        return blockNumber;
-    }
-
-    public void setBlockNumber(int blockNumber) {
-        this.blockNumber = blockNumber;
-    }
-
-    public Date getBlockTimestamp() {
+    public String getBlockTimestamp() {
         return blockTimestamp;
     }
 
-    public void setBlockTimestamp(Date blockTimestamp) {
+    public void setBlockTimestamp(String blockTimestamp) {
         this.blockTimestamp = blockTimestamp;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
+
+
 
     public int getIndex() {
         return index;
@@ -112,16 +86,43 @@ public class Exceptions {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "Exceptions{" +
-                "id=" + id +
-                ", blockNumber=" + blockNumber +
-                ", blockTimestamp=" + blockTimestamp +
-                ", transactionId='" + transactionId + '\'' +
-                ", index=" + index +
-                ", line=" + line +
-                ", message='" + message + '\'' +
-                '}';
+    public Blocks getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(Blocks blocks) {
+        this.blocks = blocks;
+    }
+
+    public Transactions getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Transactions transactions) {
+        this.transactions = transactions;
+    }
+
+    public Exceptions() {
+    }
+
+    public Exceptions(String blockTimestamp, String transactionId, int index, int line, String message, Blocks blocks, Transactions transactions) {
+        this.blockTimestamp = blockTimestamp;
+
+        this.index = index;
+        this.line = line;
+        this.message = message;
+        this.blocks = blocks;
+        this.transactions = transactions;
+    }
+
+    public Exceptions(int id, String blockTimestamp, String transactionId, int index, int line, String message, Blocks blocks, Transactions transactions) {
+        this.id = id;
+        this.blockTimestamp = blockTimestamp;
+
+        this.index = index;
+        this.line = line;
+        this.message = message;
+        this.blocks = blocks;
+        this.transactions = transactions;
     }
 }
