@@ -7,6 +7,7 @@ import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.QueryJobConfiguration;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
 
@@ -29,7 +30,7 @@ public class BigQueryItemReader<T> implements ItemReader<T>, InitializingBean {
     }
 
     BigQueryService bigQueryService;
-    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("blissful-hash-405809").setCredentials(BigQueryService.getCredentials()).build().getService();
+    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("zilliqa_project").setCredentials(BigQueryService.getCredentials()).build().getService();
 
     @Override
     public T read() throws Exception{
