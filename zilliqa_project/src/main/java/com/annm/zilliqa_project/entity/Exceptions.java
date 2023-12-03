@@ -1,7 +1,6 @@
 package com.annm.zilliqa_project.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "exceptions")
@@ -14,12 +13,12 @@ public class Exceptions {
     @Column(name = "block_timestamp")
     private String blockTimestamp;
 
-    @Column(name = "index")
+    @Column(name = "e_index")
     private int index;
-    @Column(name = "line")
+    @Column(name = "e_line")
     private int line;
-    @Column(name = "message")
-    private String message;
+    @Column(name = "e_message")
+    private String exceptionMessage;
 
     @ManyToOne
     @JoinColumn(name = "block_number", referencedColumnName = "number")
@@ -36,7 +35,7 @@ public class Exceptions {
                 ", blockTimestamp='" + blockTimestamp + '\'' +
                 ", index=" + index +
                 ", line=" + line +
-                ", message='" + message + '\'' +
+                ", message='" + exceptionMessage + '\'' +
                 ", blocks=" + blocks +
                 ", transactions=" + transactions +
                 '}';
@@ -78,12 +77,12 @@ public class Exceptions {
         this.line = line;
     }
 
-    public String getMessage() {
-        return message;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setExceptionMessage(String message) {
+        this.exceptionMessage = message;
     }
 
     public Blocks getBlocks() {
@@ -110,7 +109,7 @@ public class Exceptions {
 
         this.index = index;
         this.line = line;
-        this.message = message;
+        this.exceptionMessage = message;
         this.blocks = blocks;
         this.transactions = transactions;
     }
@@ -121,7 +120,7 @@ public class Exceptions {
 
         this.index = index;
         this.line = line;
-        this.message = message;
+        this.exceptionMessage = message;
         this.blocks = blocks;
         this.transactions = transactions;
     }
