@@ -1,38 +1,37 @@
 package com.annm.zilliqa_project.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "exceptions")
 public class Exceptions {
 
     @Id
-    @Column(name = "id")
-    private int id;
+    @Column(name = "e_id")
+    private int e_id;
 
     @Column(name = "block_timestamp")
     private String blockTimestamp;
 
-    @Column(name = "index")
+    @Column(name = "e_index")
     private int index;
-    @Column(name = "line")
+    @Column(name = "e_line")
     private int line;
-    @Column(name = "message")
+    @Column(name = "e_message")
     private String message;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "block_number", referencedColumnName = "number")
     private Blocks blocks;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
     private Transactions transactions;
 
     @Override
     public String toString() {
         return "Exceptions{" +
-                "id=" + id +
+                "id=" + e_id +
                 ", blockTimestamp='" + blockTimestamp + '\'' +
                 ", index=" + index +
                 ", line=" + line +
@@ -42,12 +41,12 @@ public class Exceptions {
                 '}';
     }
 
-    public int getId() {
-        return id;
+    public int getE_id() {
+        return e_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setE_id(int e_id) {
+        this.e_id = e_id;
     }
 
     public String getBlockTimestamp() {
@@ -116,7 +115,7 @@ public class Exceptions {
     }
 
     public Exceptions(int id, String blockTimestamp, String transactionId, int index, int line, String message, Blocks blocks, Transactions transactions) {
-        this.id = id;
+        this.e_id = id;
         this.blockTimestamp = blockTimestamp;
 
         this.index = index;

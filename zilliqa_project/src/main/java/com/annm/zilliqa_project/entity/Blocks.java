@@ -63,10 +63,10 @@ public class Blocks {
     private String headerSignature;
 
 
-    @OneToMany(mappedBy = "blocks")
+    @OneToMany(mappedBy = "blocks", cascade = {CascadeType.MERGE})
     private List<Exceptions> exceptions;
 
-    @OneToMany(mappedBy = "blocks")
+    @OneToMany(mappedBy = "blocks", cascade = {CascadeType.MERGE})
     private List<Transactions> transactions;
 
     @Override
