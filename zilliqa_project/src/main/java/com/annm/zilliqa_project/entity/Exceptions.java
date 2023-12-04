@@ -19,7 +19,7 @@ public class Exceptions {
     private int line;
     @Column(name = "e_message")
     private String message;
-
+    
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "block_number", referencedColumnName = "number")
     private Blocks blocks;
@@ -35,7 +35,7 @@ public class Exceptions {
                 ", blockTimestamp='" + blockTimestamp + '\'' +
                 ", index=" + index +
                 ", line=" + line +
-                ", message='" + message + '\'' +
+                ", message='" + exceptionMessage + '\'' +
                 ", blocks=" + blocks +
                 ", transactions=" + transactions +
                 '}';
@@ -77,12 +77,12 @@ public class Exceptions {
         this.line = line;
     }
 
-    public String getMessage() {
-        return message;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setExceptionMessage(String message) {
+        this.exceptionMessage = message;
     }
 
     public Blocks getBlocks() {
@@ -109,7 +109,7 @@ public class Exceptions {
 
         this.index = index;
         this.line = line;
-        this.message = message;
+        this.exceptionMessage = message;
         this.blocks = blocks;
         this.transactions = transactions;
     }
@@ -120,7 +120,7 @@ public class Exceptions {
 
         this.index = index;
         this.line = line;
-        this.message = message;
+        this.exceptionMessage = message;
         this.blocks = blocks;
         this.transactions = transactions;
     }
