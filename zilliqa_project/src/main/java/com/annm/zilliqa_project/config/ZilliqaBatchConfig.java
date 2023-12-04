@@ -54,15 +54,15 @@ public class ZilliqaBatchConfig {
     @Bean
     BigQueryItemReader<Blocks> bigQueryBlockItemReader(){
         BigQueryItemReader<Blocks> bigQueryItemReader = new BigQueryItemReader<>();
-        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.exceptions`.*, `public-data-finance.crypto_zilliqa.transactions`.*, `public-data-finance.crypto_zilliqa.tx_blocks`.*\n" +
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT distinct `public-data-finance.crypto_zilliqa.tx_blocks`.*\n" +
                         "FROM (`public-data-finance.crypto_zilliqa.exceptions` LEFT JOIN `public-data-finance.crypto_zilliqa.tx_blocks` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.block_number = `public-data-finance.crypto_zilliqa.tx_blocks`.number)\n" +
                         "LEFT JOIN `public-data-finance.crypto_zilliqa.transactions` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.transaction_id = `public-data-finance.crypto_zilliqa.transactions`.id\n" +
-                        "WHERE \n" +
-                        "    EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2021\n" +
-                        "    AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2\n" +
-                        "    AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) BETWEEN 1 AND 15;")
+                        "WHERE EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2021\n" +
+                        "  AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2\n" +
+                        "  AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) between 1 and 10;\n" +
+                        "\n")
                 .setUseLegacySql(false)
                 .build();
         bigQueryItemReader.setJobConfiguration(queryConfig);
@@ -94,15 +94,15 @@ public class ZilliqaBatchConfig {
     @Bean
     BigQueryItemReader<Exceptions> bigQueryExceptionItemReader(){
         BigQueryItemReader<Exceptions> bigQueryItemReader = new BigQueryItemReader<>();
-        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.exceptions`.*, `public-data-finance.crypto_zilliqa.transactions`.*, `public-data-finance.crypto_zilliqa.tx_blocks`.*\n" +
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT distinct `public-data-finance.crypto_zilliqa.exceptions`.*\n" +
                         "FROM (`public-data-finance.crypto_zilliqa.exceptions` LEFT JOIN `public-data-finance.crypto_zilliqa.tx_blocks` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.block_number = `public-data-finance.crypto_zilliqa.tx_blocks`.number)\n" +
                         "LEFT JOIN `public-data-finance.crypto_zilliqa.transactions` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.transaction_id = `public-data-finance.crypto_zilliqa.transactions`.id\n" +
-                        "WHERE \n" +
-                        "    EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2021\n" +
-                        "    AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2\n" +
-                        "    AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) BETWEEN 1 AND 15;")
+                        "WHERE EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2021\n" +
+                        "  AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2\n" +
+                        "  AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) between 1 and 10;\n" +
+                        "\n")
                 .setUseLegacySql(false)
                 .build();
         bigQueryItemReader.setJobConfiguration(queryConfig);
@@ -135,15 +135,14 @@ public class ZilliqaBatchConfig {
     @Bean
     BigQueryItemReader<Transactions> bigQueryTransactionItemReader(){
         BigQueryItemReader<Transactions> bigQueryItemReader = new BigQueryItemReader<>();
-        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.exceptions`.*, `public-data-finance.crypto_zilliqa.transactions`.*, `public-data-finance.crypto_zilliqa.tx_blocks`.*\n" +
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT distinct `public-data-finance.crypto_zilliqa.transactions`.*\n" +
                         "FROM (`public-data-finance.crypto_zilliqa.exceptions` LEFT JOIN `public-data-finance.crypto_zilliqa.tx_blocks` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.block_number = `public-data-finance.crypto_zilliqa.tx_blocks`.number)\n" +
                         "LEFT JOIN `public-data-finance.crypto_zilliqa.transactions` \n" +
                         "      ON `public-data-finance.crypto_zilliqa.exceptions`.transaction_id = `public-data-finance.crypto_zilliqa.transactions`.id\n" +
-                        "WHERE \n" +
-                        "    EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2021\n" +
-                        "    AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) = 2\n" +
-                        "    AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.`block_timestamp`) BETWEEN 1 AND 15;")
+                        "WHERE EXTRACT(YEAR FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2021\n" +
+                        "  AND EXTRACT(MONTH FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) = 2\n" +
+                        "  AND EXTRACT(DAY FROM `public-data-finance.crypto_zilliqa.exceptions`.block_timestamp) between 1 and 10;")
                 .setUseLegacySql(false)
                 .build();
         bigQueryItemReader.setJobConfiguration(queryConfig);
@@ -162,18 +161,18 @@ public class ZilliqaBatchConfig {
 
     @Bean
     public Step step3(){
-        return stepBuilderFactory.get("exceptionsToDB-step")
+        return stepBuilderFactory.get("transactionsToDB-step")
                 .<Transactions, Transactions>chunk(10)
                 .reader(bigQueryTransactionItemReader())
                 .writer(bigQueryTransactionItemWriter())
                 .build();
     }
 
-
+    
 
     @Bean
     public Job runJob(){
-        return jobBuilderFactory.get("blocksToDB")
+        return jobBuilderFactory.get("ZilliqaToDB")
                 .start(step1())
                 .next(step2())
                 .next(step3())

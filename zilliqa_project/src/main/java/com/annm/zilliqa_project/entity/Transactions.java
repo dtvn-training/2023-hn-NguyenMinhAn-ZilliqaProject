@@ -7,6 +7,7 @@ import java.util.List;
 @Table(name = "transactions")
 public class Transactions {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "t_id")
     private int t_id;
 
@@ -14,7 +15,7 @@ public class Transactions {
     private String transactionId;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "block_number")
     private Blocks blocks;
 
     @Column(name = "block_timestamp")
@@ -53,7 +54,7 @@ public class Transactions {
     @Column(name = "epoch_num")
     private int epochNum;
 
-    @OneToMany(mappedBy = "transactions", cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "transactions", cascade = CascadeType.ALL)
     private List<Exceptions> exceptions;
 
     @Override
