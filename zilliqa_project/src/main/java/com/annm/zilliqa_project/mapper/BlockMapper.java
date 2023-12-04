@@ -16,7 +16,7 @@ public class BlockMapper implements Converter<FieldValueList, Blocks> {
         String timeStamp = row.get("timestamp").getStringValue();
         int version = row.get("version").getNumericValue().intValue();
         int gasLimit = row.get("gas_limit").getNumericValue().intValue();
-        int gasUse = row.get("gas_use").getNumericValue().intValue();
+        int gasUse = row.get("gas_used").getNumericValue().intValue();
         String mbInfoHash = row.get("mb_info_hash").getStringValue();
         String txLeaderAddress = row.get("tx_leader_address").getStringValue();
         String txLeaderPubKey = row.get("tx_leader_pub_key").getStringValue();

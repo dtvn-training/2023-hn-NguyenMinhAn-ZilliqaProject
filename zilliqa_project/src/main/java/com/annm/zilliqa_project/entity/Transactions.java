@@ -1,16 +1,17 @@
 package com.annm.zilliqa_project.entity;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "transactions")
 public class Transactions {
     @Id
+    @Column(name = "t_id")
+    private int t_id;
+
     @Column(name = "transaction_id")
-    private int transactionId;
+    private String transactionId;
 
     @ManyToOne
     @JoinColumn
@@ -52,13 +53,14 @@ public class Transactions {
     @Column(name = "epoch_num")
     private int epochNum;
 
-    @OneToMany(mappedBy = "transactions")
+    @OneToMany(mappedBy = "transactions", cascade = {CascadeType.MERGE})
     private List<Exceptions> exceptions;
 
     @Override
     public String toString() {
         return "Transactions{" +
-                "transactionId=" + transactionId +
+                "id=" + t_id +
+                ", transactionId='" + transactionId + '\'' +
                 ", blocks=" + blocks +
                 ", blockTimestamp='" + blockTimestamp + '\'' +
                 ", amount=" + amount +
@@ -76,11 +78,19 @@ public class Transactions {
                 '}';
     }
 
-    public int getTransactionId() {
+    public int getT_id() {
+        return t_id;
+    }
+
+    public void setT_id(int t_id) {
+        this.t_id = t_id;
+    }
+
+    public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -199,7 +209,8 @@ public class Transactions {
     public Transactions() {
     }
 
-    public Transactions(Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+    public Transactions(String transactionId, Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+        this.transactionId = transactionId;
         this.blocks = blocks;
         this.blockTimestamp = blockTimestamp;
         this.amount = amount;
@@ -216,7 +227,8 @@ public class Transactions {
         this.exceptions = exceptions;
     }
 
-    public Transactions(int transactionId, Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+    public Transactions(int id, String transactionId, Blocks blocks, String blockTimestamp, int amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+        this.t_id = id;
         this.transactionId = transactionId;
         this.blocks = blocks;
         this.blockTimestamp = blockTimestamp;
