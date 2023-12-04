@@ -5,7 +5,6 @@ import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.QueryJobConfiguration;
-import net.minidev.json.JSONUtil;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -68,7 +67,7 @@ public class ZilliqaProjectApplication {
 		for (String s : JobList) {
 			String choice = System.getProperty(s);
 			switch (choice) {
-				case "BlocksToDB":
+				case "BQToDB":
 					runJob(jobLauncher, job);
 					break;
 				default:
