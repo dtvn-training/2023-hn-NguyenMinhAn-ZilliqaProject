@@ -9,11 +9,12 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
     @Override
     public Transactions convert(FieldValueList row) {
         String transactionId = row.get("id").getStringValue();
-        Blocks blocks = new Blocks();
         int blockNumber = row.get("block_number").getNumericValue().intValue();
+        Blocks blocks = new Blocks();
         blocks.setNumber(blockNumber);
         String blockTimestamp = row.get("block_timestamp").getStringValue();
-        int amount = row.get("amount").getNumericValue().intValue();
+        String data = row.get("data").getStringValue();
+        Long amount = row.get("amount").getNumericValue().longValue();
         int gasLimit = row.get("gas_limit").getNumericValue().intValue();
         int gasPrice = row.get("gas_price").getNumericValue().intValue();
         String senderPubKey = row.get("sender_pub_key").getStringValue();
@@ -28,6 +29,7 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         transactions.setTransactionId(transactionId);
         transactions.setBlocks(blocks);
         transactions.setBlockTimestamp(blockTimestamp);
+        transactions.setData(data);
         transactions.setAmount(amount);
         transactions.setGasLimit(gasLimit);
         transactions.setGasPrice(gasPrice);
@@ -39,6 +41,7 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         transactions.setSuccess(success);
         transactions.setCumulativeGas(cumulativeGas);
         transactions.setEpochNum(epochNum);
+        System.out.println(transactions.toString());
         return transactions;
     }
 }

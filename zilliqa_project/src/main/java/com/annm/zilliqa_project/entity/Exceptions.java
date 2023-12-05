@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Exceptions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "e_id")
     private int e_id;
 
