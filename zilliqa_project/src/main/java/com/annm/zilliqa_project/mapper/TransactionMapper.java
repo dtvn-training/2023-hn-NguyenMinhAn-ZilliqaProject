@@ -2,6 +2,7 @@ package com.annm.zilliqa_project.mapper;
 
 import com.annm.zilliqa_project.entity.Blocks;
 import com.annm.zilliqa_project.entity.Transactions;
+import com.annm.zilliqa_project.mapper.formatter.TimestampFormatter;
 import com.google.cloud.bigquery.FieldValueList;
 import org.springframework.core.convert.converter.Converter;
 
@@ -12,7 +13,8 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         int blockNumber = row.get("block_number").getNumericValue().intValue();
         Blocks blocks = new Blocks();
         blocks.setNumber(blockNumber);
-        String blockTimestamp = row.get("block_timestamp").getStringValue();
+        Double blockTimestamp = row.get("block_timestamp").getDoubleValue();
+        TimestampFormatter timestampFormatter = new TimestampFormatter();
         String data = row.get("data").getStringValue();
         Long amount = row.get("amount").getNumericValue().longValue();
         int gasLimit = row.get("gas_limit").getNumericValue().intValue();
@@ -28,7 +30,7 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         Transactions transactions = new Transactions();
         transactions.setTransactionId(transactionId);
         transactions.setBlocks(blocks);
-        transactions.setBlockTimestamp(blockTimestamp);
+        transactions.setBlockTimestamp(timestampFormatter.Formatter(blockTimestamp));
         transactions.setData(data);
         transactions.setAmount(amount);
         transactions.setGasLimit(gasLimit);
