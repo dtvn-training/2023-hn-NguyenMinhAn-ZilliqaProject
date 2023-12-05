@@ -18,7 +18,7 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         String data = row.get("data").getStringValue();
         Long amount = row.get("amount").getNumericValue().longValue();
         int gasLimit = row.get("gas_limit").getNumericValue().intValue();
-        int gasPrice = row.get("gas_price").getNumericValue().intValue();
+        Long gasPrice = row.get("gas_price").getNumericValue().longValue();
         String senderPubKey = row.get("sender_pub_key").getStringValue();
         String sender = row.get("sender").getStringValue();
         String signature = row.get("signature").getStringValue();
