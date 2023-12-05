@@ -29,7 +29,7 @@ public class Transactions {
     private int gasLimit;
 
     @Column(name = "gas_price")
-    private int gasPrice;
+    private Long gasPrice;
 
     @Column(name = "sender_pub_key")
     private String senderPubKey;
@@ -141,11 +141,11 @@ public class Transactions {
         this.gasLimit = gasLimit;
     }
 
-    public int getGasPrice() {
+    public Long getGasPrice() {
         return gasPrice;
     }
 
-    public void setGasPrice(int gasPrice) {
+    public void setGasPrice(Long gasPrice) {
         this.gasPrice = gasPrice;
     }
 
@@ -224,7 +224,7 @@ public class Transactions {
     public Transactions() {
     }
 
-    public Transactions(String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+    public Transactions(String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
         this.transactionId = transactionId;
         this.data = data;
         this.blocks = blocks;
@@ -243,7 +243,7 @@ public class Transactions {
         this.exceptions = exceptions;
     }
 
-    public Transactions(int id, String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, int gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
+    public Transactions(int id, String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
         this.t_id = id;
         this.transactionId = transactionId;
         this.data = data;
