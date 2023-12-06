@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "transactions")
 public class Transactions {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "t_id")
     private int t_id;
 
@@ -46,6 +46,59 @@ public class Transactions {
     @Column(name = "version")
     private int version;
 
+    @Column(name = "success")
+    private boolean success;
+
+    @Column(name = "cumulative_gas")
+    private int cumulativeGas;
+
+    @Column(name = "epoch_num")
+    private int epochNum;
+
+    @ManyToOne
+    @JoinColumn(name = "block_number")
+    private Blocks blocks;
+
+    public Transactions(int t_id, String transactionId, String blockTimestamp, String data, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions, Blocks blocks) {
+        this.t_id = t_id;
+        this.transactionId = transactionId;
+        this.blockTimestamp = blockTimestamp;
+        this.data = data;
+        this.amount = amount;
+        this.gasLimit = gasLimit;
+        this.gasPrice = gasPrice;
+        this.senderPubKey = senderPubKey;
+        this.sender = sender;
+        this.signature = signature;
+        this.toAddress = toAddress;
+        this.version = version;
+        this.success = success;
+        this.cumulativeGas = cumulativeGas;
+        this.epochNum = epochNum;
+        this.blocks = blocks;
+    }
+
+    public Transactions(String transactionId, String blockTimestamp, String data, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions, Blocks blocks) {
+        this.transactionId = transactionId;
+        this.blockTimestamp = blockTimestamp;
+        this.data = data;
+        this.amount = amount;
+        this.gasLimit = gasLimit;
+        this.gasPrice = gasPrice;
+        this.senderPubKey = senderPubKey;
+        this.sender = sender;
+        this.signature = signature;
+        this.toAddress = toAddress;
+        this.version = version;
+        this.success = success;
+        this.cumulativeGas = cumulativeGas;
+        this.epochNum = epochNum;
+        this.blocks = blocks;
+    }
+
+    public Transactions() {
+    }
+
     @Override
     public String toString() {
         return "Transactions{" +
@@ -64,34 +117,9 @@ public class Transactions {
                 ", success=" + success +
                 ", cumulativeGas=" + cumulativeGas +
                 ", epochNum=" + epochNum +
-                ", exceptions=" + exceptions +
                 ", blocks=" + blocks +
                 '}';
     }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    @Column(name = "success")
-    private boolean success;
-
-    @Column(name = "cumulative_gas")
-    private int cumulativeGas;
-
-    @Column(name = "epoch_num")
-    private int epochNum;
-
-    @OneToMany(mappedBy = "transactions", cascade = CascadeType.ALL)
-    private List<Exceptions> exceptions;
-
-    @ManyToOne
-    @JoinColumn(name = "block_number")
-    private Blocks blocks;
 
     public int getT_id() {
         return t_id;
@@ -109,20 +137,20 @@ public class Transactions {
         this.transactionId = transactionId;
     }
 
-    public Blocks getBlocks() {
-        return blocks;
-    }
-
-    public void setBlocks(Blocks blocks) {
-        this.blocks = blocks;
-    }
-
     public String getBlockTimestamp() {
         return blockTimestamp;
     }
 
     public void setBlockTimestamp(String blockTimestamp) {
         this.blockTimestamp = blockTimestamp;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public Long getAmount() {
@@ -213,53 +241,11 @@ public class Transactions {
         this.epochNum = epochNum;
     }
 
-    public List<Exceptions> getExceptions() {
-        return exceptions;
+    public Blocks getBlocks() {
+        return blocks;
     }
 
-    public void setExceptions(List<Exceptions> exceptions) {
-        this.exceptions = exceptions;
-    }
-
-    public Transactions() {
-    }
-
-    public Transactions(String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
-        this.transactionId = transactionId;
-        this.data = data;
+    public void setBlocks(Blocks blocks) {
         this.blocks = blocks;
-        this.blockTimestamp = blockTimestamp;
-        this.amount = amount;
-        this.gasLimit = gasLimit;
-        this.gasPrice = gasPrice;
-        this.senderPubKey = senderPubKey;
-        this.sender = sender;
-        this.signature = signature;
-        this.toAddress = toAddress;
-        this.version = version;
-        this.success = success;
-        this.cumulativeGas = cumulativeGas;
-        this.epochNum = epochNum;
-        this.exceptions = exceptions;
-    }
-
-    public Transactions(int id, String transactionId, String data, Blocks blocks, String blockTimestamp, Long amount, int gasLimit, Long gasPrice, String senderPubKey, String sender, String signature, String toAddress, int version, boolean success, int cumulativeGas, int epochNum, List<Exceptions> exceptions) {
-        this.t_id = id;
-        this.transactionId = transactionId;
-        this.data = data;
-        this.blocks = blocks;
-        this.blockTimestamp = blockTimestamp;
-        this.amount = amount;
-        this.gasLimit = gasLimit;
-        this.gasPrice = gasPrice;
-        this.senderPubKey = senderPubKey;
-        this.sender = sender;
-        this.signature = signature;
-        this.toAddress = toAddress;
-        this.version = version;
-        this.success = success;
-        this.cumulativeGas = cumulativeGas;
-        this.epochNum = epochNum;
-        this.exceptions = exceptions;
     }
 }
