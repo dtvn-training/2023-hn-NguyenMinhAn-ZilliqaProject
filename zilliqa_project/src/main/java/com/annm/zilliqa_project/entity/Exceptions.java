@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Exceptions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "e_id")
     private int e_id;
 
@@ -21,25 +21,27 @@ public class Exceptions {
     @Column(name = "e_message")
     private String message;
 
+    @Column(name = "transaction_id")
+    private String transactionId;
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
     @ManyToOne
     @JoinColumn(name = "block_number")
     private Blocks blocks;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "transaction_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JoinColumn(name = "t_id")
     private Transactions transactions;
 
-    @Override
-    public String toString() {
-        return "Exceptions{" +
-                "e_id=" + e_id +
-                ", blockTimestamp='" + blockTimestamp + '\'' +
-                ", index=" + index +
-                ", line=" + line +
-                ", message='" + message + '\'' +
-                ", blocks=" + blocks +
-                ", transactions=" + transactions +
-                '}';
+    public Exceptions() {
     }
 
     public int getE_id() {
@@ -98,25 +100,42 @@ public class Exceptions {
         this.transactions = transactions;
     }
 
-    public Exceptions() {
+    public Exceptions(String transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public Exceptions(String blockTimestamp, int index, int line, String message, Blocks blocks, Transactions transactions) {
+    public Exceptions(String blockTimestamp, int index, int line, String message, String transactionId, Blocks blocks, Transactions transactions) {
         this.blockTimestamp = blockTimestamp;
         this.index = index;
         this.line = line;
         this.message = message;
+        this.transactionId = transactionId;
         this.blocks = blocks;
         this.transactions = transactions;
     }
 
-    public Exceptions(int e_id, String blockTimestamp, int index, int line, String message, Blocks blocks, Transactions transactions) {
+    public Exceptions(int e_id, String blockTimestamp, int index, int line, String message, String transactionId, Blocks blocks, Transactions transactions) {
         this.e_id = e_id;
         this.blockTimestamp = blockTimestamp;
         this.index = index;
         this.line = line;
         this.message = message;
+        this.transactionId = transactionId;
         this.blocks = blocks;
         this.transactions = transactions;
+    }
+
+    @Override
+    public String toString() {
+        return "Exceptions{" +
+                "e_id=" + e_id +
+                ", blockTimestamp='" + blockTimestamp + '\'' +
+                ", index=" + index +
+                ", line=" + line +
+                ", message='" + message + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                ", blocks=" + blocks +
+                ", transactions=" + transactions +
+                '}';
     }
 }

@@ -4,14 +4,8 @@ import com.annm.zilliqa_project.entity.Blocks;
 import com.annm.zilliqa_project.entity.Exceptions;
 import com.annm.zilliqa_project.entity.Transactions;
 import com.annm.zilliqa_project.mapper.formatter.TimestampFormatter;
-import com.google.cloud.Timestamp;
 import com.google.cloud.bigquery.FieldValueList;
 import org.springframework.core.convert.converter.Converter;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class ExceptionMapper implements Converter<FieldValueList, Exceptions> {
     @Override
@@ -22,18 +16,20 @@ public class ExceptionMapper implements Converter<FieldValueList, Exceptions> {
         int line = row.get("line").getNumericValue().intValue();
         String message = row.get("message").getStringValue();
         int blockNumber = row.get("block_number").getNumericValue().intValue();
+        String transactionId = row.get("transaction_id").getStringValue();
         Blocks blocks = new Blocks();
         blocks.setNumber(blockNumber);
-        Transactions transactions = new Transactions();
-        String transactionId = row.get("transaction_id").getStringValue();
-        transactions.setTransactionId(transactionId);
-        Exceptions exceptions = new Exceptions();
+//        int t_id = row.get("Row").getNumericValue().intValue();
+//        Transactions transactions = new Transactions();
+//        transactions.setT_id(t_id);
+        Exceptions exceptions = new Exceptions(transactionId);
         exceptions.setBlockTimestamp(timestampFormatter.Formatter(blockTimestamp));
         exceptions.setIndex(index);
         exceptions.setLine(line);
         exceptions.setMessage(message);
         exceptions.setBlocks(blocks);
-        exceptions.setTransactions(transactions);
+        exceptions.setTransactionId(transactionId);
+//        exceptions.setTransactions(transactions);
         return exceptions;
     }
 }
