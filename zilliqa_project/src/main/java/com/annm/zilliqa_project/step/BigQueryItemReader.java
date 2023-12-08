@@ -39,12 +39,10 @@ public class BigQueryItemReader<T> implements ItemReader<T>, InitializingBean {
         }
         return iterator.hasNext() ? rowMapper.convert(iterator.next()) : null;
     }
-
     private void doOpen() throws Exception {
         iterator = bigQuery.query(queryConfig).getValues().iterator();
         System.out.println(2222);
     }
-
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(this.bigQuery, "BigQuery service must be provided");
