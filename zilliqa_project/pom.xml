@@ -85,6 +85,12 @@
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-bigquery</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
