@@ -29,9 +29,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(
                 configurer->configurer
+                        .antMatchers("/*").permitAll()
+                        .antMatchers("/login/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
         ).formLogin(
-                form->form.loginPage("/showLoginPage")
+                form->form.loginPage("/login/showLoginPage")
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll()
         ).logout(
