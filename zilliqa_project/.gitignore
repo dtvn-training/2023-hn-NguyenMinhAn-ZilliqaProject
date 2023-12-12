@@ -33,8 +33,7 @@ build/
 ### VS Code ###
 .vscode/
 
-.idea
 
 src/main/resources/blissful-hash-405809-b462582d533c.json
 
-
+.idea
