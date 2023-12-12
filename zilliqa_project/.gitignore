@@ -30,10 +30,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+src/main/java/com/annm/zilliqa_project/service/BigQueryService.java
+
 ### VS Code ###
 .vscode/
 
 
 src/main/resources/blissful-hash-405809-b462582d533c.json
 
-.idea

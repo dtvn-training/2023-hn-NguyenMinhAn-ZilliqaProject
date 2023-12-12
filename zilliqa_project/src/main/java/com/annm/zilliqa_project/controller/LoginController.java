@@ -22,77 +22,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
-    UserService userService;
-    RoleRepository roleRepository;
-
-    @Autowired
-    public LoginController(UserService userService, RoleRepository repository) {
-        this.userService = userService;
-        this.roleRepository = repository;
-    }
-
-    @GetMapping("/showLoginPage")
-    public String loginForm(Model model){
+    @GetMapping("/login")
+    public String loginForm(){
         return "login";
     }
 
-    @GetMapping("/showPage404")
-    public String showPage404(Model model){
-        return "404";
-    }
-
-    @GetMapping("/showRegisterForm")
-    public String showRegisterForm(Model model){
-        RegisterUser ru = new RegisterUser();
-        model.addAttribute("registerUser", ru);
+    @GetMapping("/register")
+    public String register(Model model){
         return "register";
     }
 
-    @PostMapping("/process")
-    public String process(@Valid @ModelAttribute("registerUser") RegisterUser registerUser,
-                         BindingResult result,
-                         Model model,
-                         HttpSession session){
-        String username = registerUser.getUsername();
-
-        if (result.hasErrors()){
-            return "register";
-        }
-        Users userExisting = userService.findByUsername(username);
-        if (userExisting != null){
-            model.addAttribute("registerUser",new RegisterUser());
-            model.addAttribute("my_error", "Account has been existed");
-            return "register";
-        }
-
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        Users user = new Users();
-        user.setUsername(registerUser.getUsername());
-        user.setPassword(bcrypt.encode(registerUser.getPassword()));
-        user.setFirstName(registerUser.getFirstName());
-        user.setLastName(registerUser.getLastName());
-
-        Roles defaultRole = roleRepository.findByName("ROLE_USER");
-        Collection<Roles> roles = new ArrayList<>();
-        roles.add(defaultRole);
-        user.setRoles(roles);
-
-        userService.save(user);
-
-        // confirm success
-        session.setAttribute("myuser", user);
-
-        return "register-confirmation";
+    @GetMapping("/forgot-password")
+    public String forgotPassword(Model model){
+        return "forgot-password";
     }
 
-    @GetMapping("/addAdmin")
-    public void addAdmin(Model model){
-        Roles roles = new Roles();
-        roles.setId(1L);
-        roles.setName("ROLE_ADMIN");
-        roleRepository.save(roles);
-    }
 }
