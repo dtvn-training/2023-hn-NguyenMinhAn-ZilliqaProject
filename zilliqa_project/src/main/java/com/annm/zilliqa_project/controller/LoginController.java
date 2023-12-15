@@ -1,12 +1,12 @@
 package com.annm.zilliqa_project.controller;
 
-import com.annm.zilliqa_project.entity.Roles;
+import com.annm.zilliqa_project.dto.UserDto;
 import com.annm.zilliqa_project.entity.Users;
-import com.annm.zilliqa_project.repository.RoleRepository;
-import com.annm.zilliqa_project.service.UserService;
-import com.annm.zilliqa_project.web.RegisterUser;
-import com.google.errorprone.annotations.Var;
+import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +15,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Controller
 public class LoginController {
 
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm(Model model){
+        model.addAttribute("title", "Login Page");
         return "login";
+    }
+
+    @RequestMapping("/overview")
+    public String home(Model model){
+        model.addAttribute("title", "Overview Page");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
+        return "overview";
     }
 
     @GetMapping("/register")
     public String register(Model model){
+        model.addAttribute("userDto", new UserDto());
         return "register";
     }
 
@@ -39,4 +53,35 @@ public class LoginController {
         return "forgot-password";
     }
 
+    @PostMapping("/register-new")
+    public String addNewUser(@Valid @ModelAttribute("userDto")UserDto userDto,
+                             BindingResult result,
+                             Model model){
+        try{
+            if(result.hasErrors()){
+                model.addAttribute("userDto", userDto);
+                return "register";
+            }
+            String username = userDto.getUsername();
+            Users user = userService.findByUsername(username);
+            if (user != null) {
+                model.addAttribute("userDto", userDto);
+                model.addAttribute("usernameError", "Your username has been registered");
+                return "register";
+            }
+            if (userDto.getPassword().equals(userDto.getRepeatPassword())){
+                userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+                userService.save(userDto);
+                model.addAttribute("userDto", userDto);
+                model.addAttribute("success", "Register successfully");
+            } else {
+                model.addAttribute("userDto", userDto);
+                model.addAttribute("passwordError", "Passwords don't match!");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("errors", "Something went wrong. please try again later!");
+        }
+        return "register";
+    }
 }

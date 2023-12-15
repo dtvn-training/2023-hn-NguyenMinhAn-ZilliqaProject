@@ -21,7 +21,7 @@ public class BigQueryService {
 //        List<Customer> customers = new ArrayList<>();
 
         GoogleCredentials credentials = null;
-        File file = new File("/Users/nguyenminhan/Workspace/Spring/ZilliqaProject/2023-hn-NguyenMinhAn-ZilliqaProject/zilliqa_project/src/main/resources/arched-alpha-407106-64747fa3e14c.json"); // bigquery.json
+        File file = new File("D:\\Workspace\\Spring\\ZilliqaProject\\2023-hn-NguyenMinhAn-ZilliqaProject\\zilliqa_project\\src\\main\\resources\\blissful-hash-405809-b462582d533c.json"); // bigquery.json
         String absolutePath = file.getAbsolutePath();
 
         final File credentialsPath = new File(absolutePath);
