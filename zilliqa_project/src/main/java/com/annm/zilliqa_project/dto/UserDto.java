@@ -1,23 +1,23 @@
-package com.annm.zilliqa_project.web;
+package com.annm.zilliqa_project.dto;
 
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class RegisterUser {
-    @NotNull(message = "thông tin bắt buộc")
-    @Size(min=1, message = "độ dài tối thiểu là 1")
+public class UserDto {
+    @Size(min=2, message = "độ dài tối thiểu là 1")
     private String username;
 
-    @NotNull(message = "thông tin bắt buộc")
-    @Size(min=8, message = "độ dài tối thiểu là 8")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[@#$%^&+=!])(?=\\S+$).*$",
-            message = "Mật khẩu phải chứa ít nhất 1 chữ số và 1 ký tự đặc biệt")
+    @Size(min = 5, max = 15, message = "Mật khẩu không hợp lệ!(5-15 kí tự)")
     private String password;
 
     private String repeatPassword;
+
+    @Size(min = 2, max = 10, message = "Tên không hợp lệ!(1-10 kí tự)")
     private String firstName;
+
+    @Size(min = 2, max = 10, message = "Tên không hợp lệ!(1-10 kí tự)")
     private String lastName;
 
 
@@ -72,10 +72,10 @@ public class RegisterUser {
         this.lastName = lastName;
     }
 
-    public RegisterUser() {
+    public UserDto() {
     }
 
-    public RegisterUser(String username, String password, String repeatPassword, String firstName, String lastName) {
+    public UserDto(String username, String password, String repeatPassword, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;

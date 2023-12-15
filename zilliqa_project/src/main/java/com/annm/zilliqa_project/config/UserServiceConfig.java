@@ -13,12 +13,8 @@ import java.util.stream.Collectors;
 
 public class UserServiceConfig implements UserDetailsService {
 
-    private UserRepository userRepository;
-
     @Autowired
-    public UserServiceConfig() {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

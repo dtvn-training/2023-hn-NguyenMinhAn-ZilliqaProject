@@ -43,7 +43,6 @@ public class TransactionMapper implements Converter<FieldValueList, Transactions
         transactions.setSuccess(success);
         transactions.setCumulativeGas(cumulativeGas);
         transactions.setEpochNum(epochNum);
-        System.out.println(transactions.toString());
         return transactions;
     }
 }
