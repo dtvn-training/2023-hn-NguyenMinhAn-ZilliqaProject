@@ -30,7 +30,7 @@ public class BigQueryItemReader<T> implements ItemReader<T>, InitializingBean {
     }
 
     BigQueryService bigQueryService;
-    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("arched-alpha-407106").setCredentials(BigQueryService.getCredentials()).build().getService();
+    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("blissful-hash-405809").setCredentials(BigQueryService.getCredentials()).build().getService();
 
     @Override
     public T read() throws Exception{
@@ -41,7 +41,6 @@ public class BigQueryItemReader<T> implements ItemReader<T>, InitializingBean {
     }
     private void doOpen() throws Exception {
         iterator = bigQuery.query(queryConfig).getValues().iterator();
-        System.out.println(2222);
     }
     @Override
     public void afterPropertiesSet() throws Exception {
