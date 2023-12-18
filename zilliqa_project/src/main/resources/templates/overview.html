@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -167,7 +168,7 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item"  href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -184,7 +185,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Overview</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
@@ -199,12 +200,10 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                Blocks</div>
+                                            <div th:text="${countBlock}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
+                                            <i class="fa-sharp fa-solid fa-cube fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -217,12 +216,10 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Transaction</div>
+                                            <div th:text="${countTransaction}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
+                                        <i class="fa-solid fa-money-bill fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -234,24 +231,17 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Exceptions
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
+                                                    <div th:text="${countException}" class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
+
+                                            <i class="fa-solid fa-circle-exclamation fa-2x"></i>
+
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +285,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" th:href="@{/logout}" href="login.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -317,6 +307,7 @@
     <!-- Page level custom scripts -->
     <script th:src="@{js/demo/chart-area-demo.js}"></script>
     <script th:src="@{js/demo/chart-pie-demo.js}"></script>
+    <script src="https://kit.fontawesome.com/d51c9bc111.js" crossorigin="anonymous"></script>
 
 </body>
 

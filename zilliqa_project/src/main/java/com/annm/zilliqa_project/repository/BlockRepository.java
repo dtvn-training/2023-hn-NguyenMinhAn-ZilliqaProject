@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlockRepository extends JpaRepository<Blocks, Integer> {
+    int countByNumber(int number);
 }
