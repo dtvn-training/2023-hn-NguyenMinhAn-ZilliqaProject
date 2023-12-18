@@ -2,6 +2,9 @@ package com.annm.zilliqa_project.controller;
 
 import com.annm.zilliqa_project.dto.UserDto;
 import com.annm.zilliqa_project.entity.Users;
+import com.annm.zilliqa_project.service.serviceImpl.BlockServiceImpl;
+import com.annm.zilliqa_project.service.serviceImpl.ExceptionServiceImpl;
+import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,6 +27,15 @@ public class LoginController {
     private UserServiceImpl userService;
 
     @Autowired
+    private BlockServiceImpl blockService;
+
+    @Autowired
+    private TransactionServiceImpl transactionService;
+
+    @Autowired
+    private ExceptionServiceImpl exceptionService;
+
+    @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -35,10 +47,16 @@ public class LoginController {
     @RequestMapping("/overview")
     public String home(Model model){
         model.addAttribute("title", "Overview Page");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
-            return "redirect:/login";
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
+//            return "redirect:/login";
+//        }
+        Long countBlock = blockService.count();
+        Long countTransaction = transactionService.count();
+        Long countException = exceptionService.count();
+        model.addAttribute("countBlock", countBlock);
+        model.addAttribute("countTransaction", countTransaction);
+        model.addAttribute("countException", countException);
         return "overview";
     }
 
