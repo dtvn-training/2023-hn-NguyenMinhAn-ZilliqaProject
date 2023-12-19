@@ -20,11 +20,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
+
+@RequestMapping("/user")
 @Controller
-public class LoginController {
-
+public class HomeController {
     @Autowired
     private UserServiceImpl userService;
 
@@ -40,13 +40,7 @@ public class LoginController {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/login")
-    public String loginForm(Model model){
-        model.addAttribute("title", "Login Page");
-        return "login";
-    }
-
-    @RequestMapping("/overview")
+    @GetMapping("/home")
     public String home(Model model){
 //        model.addAttribute("title", "Overview Page");
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,10 +66,10 @@ public class LoginController {
         model.addAttribute("totalPages", blocks.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("blocks", blocks);
-        return "overview";
+        return "home";
     }
 
-    @GetMapping("/overview/{pageNo}")
+    @GetMapping("/home/{pageNo}")
     public String blocksPage(@PathVariable("pageNo") int pageNo, Model model){
         Page<Blocks> blocks = blockService.getAllBlocks(pageNo);
         Long countBlock = blockService.count();
@@ -89,51 +83,6 @@ public class LoginController {
         model.addAttribute("totalPages", blocks.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("blocks", blocks);
-        return "overview";
-    }
-
-
-
-    @GetMapping("/register")
-    public String register(Model model){
-        model.addAttribute("userDto", new UserDto());
-        return "register";
-    }
-
-    @GetMapping("/forgot-password")
-    public String forgotPassword(Model model){
-        return "forgot-password";
-    }
-
-    @PostMapping("/register-new")
-    public String addNewUser(@Valid @ModelAttribute("userDto")UserDto userDto,
-                             BindingResult result,
-                             Model model){
-        try{
-            if(result.hasErrors()){
-                model.addAttribute("userDto", userDto);
-                return "register";
-            }
-            String username = userDto.getUsername();
-            Users user = userService.findByUsername(username);
-            if (user != null) {
-                model.addAttribute("userDto", userDto);
-                model.addAttribute("usernameError", "Your username has been registered");
-                return "register";
-            }
-            if (userDto.getPassword().equals(userDto.getRepeatPassword())){
-                userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-                userService.save(userDto);
-                model.addAttribute("userDto", userDto);
-                model.addAttribute("success", "Register successfully");
-            } else {
-                model.addAttribute("userDto", userDto);
-                model.addAttribute("passwordError", "Passwords don't match!");
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            model.addAttribute("errors", "Something went wrong. please try again later!");
-        }
-        return "register";
+        return "home";
     }
 }
