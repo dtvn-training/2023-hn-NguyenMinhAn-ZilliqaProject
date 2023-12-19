@@ -31,7 +31,7 @@ build/
 !**/src/test/**/build/
 
 **/src/main/java/com/annm/zilliqa_project/service/BigQueryService.java
-
+**/src/main/java/com/annm/zilliqa_project/step/BigQueryItemReader.java
 ### VS Code ###
 .vscode/
 

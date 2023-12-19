@@ -30,7 +30,7 @@ public class BigQueryItemReader<T> implements ItemReader<T>, InitializingBean {
     }
 
     BigQueryService bigQueryService;
-    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("blissful-hash-405809").setCredentials(BigQueryService.getCredentials()).build().getService();
+    BigQuery bigQuery = BigQueryOptions.newBuilder().setProjectId("arched-alpha-407106").setCredentials(BigQueryService.getCredentials()).build().getService();
 
     @Override
     public T read() throws Exception{
