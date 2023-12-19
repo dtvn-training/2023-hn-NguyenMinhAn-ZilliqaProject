@@ -36,5 +36,6 @@ build/
 .vscode/
 
 
-**/blissful-hash-405809-b462582d533c.json
+**/SecretKey/**
+**/SecretKey
 
