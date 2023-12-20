@@ -22,8 +22,9 @@ import java.util.List;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class ZilliqaProjectApplication {
-
 	public static void main(String[] args) {
+
+
 
 		ConfigurableApplicationContext context = SpringApplication.run(ZilliqaProjectApplication.class, args);
 
