@@ -46,7 +46,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="overview.html" th:href="@{/user/home}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span style="font-size: 16px;">Home</span></a>
+                    <span style="font-size: 16px;">Overview</span></a>
             </li>
 
             <!-- Divider -->
@@ -177,6 +177,7 @@
                         </li>
 
                         <li th:ref="navbar-item" sec:authorize="!isAuthenticated()">
+                            <a th:text="'Login'" th:href="@{/login}"/>
                         </li>
 
                     </ul>
@@ -189,7 +190,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Home</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Blocks Finding</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </a>
                     </div>
@@ -255,11 +256,11 @@
                 </div>
 
                 <div >
-                    <p th:if = "${size==0}">Không có sản phẩm nào</p>
+                    <p th:if = "${size==0}">We can't find blocks matching the selection</p>
                 </div>
 <!--                <div class="card shadow mb-4" th:if="${size > 0}">-->
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Blocks Table</h6>
                     </div>
                     <div class="card-body" width="100%">
                         <div class="table-responsive">

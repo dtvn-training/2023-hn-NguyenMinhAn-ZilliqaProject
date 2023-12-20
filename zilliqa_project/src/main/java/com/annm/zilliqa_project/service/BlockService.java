@@ -11,4 +11,6 @@ public interface BlockService {
     List<Blocks> allBlocks();
 
     Page<Blocks> getAllBlocks(int pageNo);
+
+    Page<Blocks> searchBlocks(int pageNo, String keyword);
 }

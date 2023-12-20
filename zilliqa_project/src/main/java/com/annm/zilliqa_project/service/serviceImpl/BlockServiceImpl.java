@@ -37,6 +37,14 @@ public class BlockServiceImpl implements BlockService {
         return blocksPage;
     }
 
+    @Override
+    public Page<Blocks> searchBlocks(int pageNo, String keyword) {
+        List<Blocks> blocks = blockRepository.searchBlocks(keyword);
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        Page<Blocks> blocksPage = toPage(blocks, pageable);
+        return blocksPage;
+    }
+
     private Page toPage(List<Blocks> list, Pageable pageable){
         if (pageable.getOffset() >= list.size()){
             return Page.empty();
