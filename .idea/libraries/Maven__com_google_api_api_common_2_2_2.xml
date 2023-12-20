@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.api:api-common:2.2.2" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.google.api" artifactId="api-common" version="2.2.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/2.2.2/api-common-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/2.2.2/api-common-2.2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/api-common/2.2.2/api-common-2.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

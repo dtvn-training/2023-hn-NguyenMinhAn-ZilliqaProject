@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.api.grpc:grpc-google-cloud-bigquerystorage-v1beta1:0.149.0" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.google.api.grpc" artifactId="grpc-google-cloud-bigquerystorage-v1beta1" version="0.149.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/grpc-google-cloud-bigquerystorage-v1beta1/0.149.0/grpc-google-cloud-bigquerystorage-v1beta1-0.149.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/grpc-google-cloud-bigquerystorage-v1beta1/0.149.0/grpc-google-cloud-bigquerystorage-v1beta1-0.149.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/api/grpc/grpc-google-cloud-bigquerystorage-v1beta1/0.149.0/grpc-google-cloud-bigquerystorage-v1beta1-0.149.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

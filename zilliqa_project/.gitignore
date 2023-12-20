@@ -31,10 +31,19 @@ build/
 !**/src/test/**/build/
 
 **/src/main/java/com/annm/zilliqa_project/service/BigQueryService.java
+<<<<<<< HEAD
 
+=======
+**/src/main/java/com/annm/zilliqa_project/step/BigQueryItemReader.java
+>>>>>>> 9f893457c1e4fafe281e5f54b6519e88bc807dd8
 ### VS Code ###
 .vscode/
 
 
+<<<<<<< HEAD
 **/blissful-hash-405809-b462582d533c.json
+=======
+**/SecretKey/**
+**/SecretKey
+>>>>>>> 9f893457c1e4fafe281e5f54b6519e88bc807dd8
 
