@@ -331,16 +331,6 @@
                             <nav aria-label="...">
                                 <ul class="pagination" >
                                     <li th:if= "${currentPage != 0}" class="page-item ">
-<<<<<<< HEAD
-                                        <a th:href = "@{'/home/' + ${currentPage - 1}}" class="page-link">Previous</a>
-                                    </li >
-                                    <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                        <a th:href = "@{'/home/' + ${i - 1}}" class="page-link" href="#">
-                                             <span th:text = "${i}">
-                                             </span></a></li>
-                                    <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
-                                        <a th:href = "@{'/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
-=======
                                         <a th:href = "@{'/user/home/' + ${currentPage - 1}}" class="page-link">Previous</a>
                                     </li >
                                     <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
@@ -349,7 +339,6 @@
                                              </span></a></li>
                                     <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
                                         <a th:href = "@{'/user/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
->>>>>>> 9f893457c1e4fafe281e5f54b6519e88bc807dd8
                                     </li>
                                 </ul>
                             </nav>
