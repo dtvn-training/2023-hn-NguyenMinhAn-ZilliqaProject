@@ -3,6 +3,7 @@ package com.annm.zilliqa_project.controller;
 import com.annm.zilliqa_project.entity.Blocks;
 import com.annm.zilliqa_project.repository.BlockRepository;
 import com.annm.zilliqa_project.service.BlockService;
+import com.annm.zilliqa_project.service.serviceImpl.BlockServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.ExceptionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -26,7 +28,7 @@ public class BlockController {
     private UserServiceImpl userService;
 
     @Autowired
-    private BlockService blockService;
+    private BlockServiceImpl blockService;
 
     @Autowired
     private TransactionServiceImpl transactionService;
@@ -42,9 +44,11 @@ public class BlockController {
         if (principal == null) {
             return "redirect:/login";
         }
+        List<Blocks> blocks = blockService.findTop10Blocks();
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
         Long countException = exceptionService.count();
+        model.addAttribute("blocks", blocks);
         model.addAttribute("countBlock", countBlock);
         model.addAttribute("countTransaction", countTransaction);
         model.addAttribute("countException", countException);
@@ -53,7 +57,7 @@ public class BlockController {
     }
 
     @GetMapping("/search-blocks/{pageNo}")
-    public String blockResult(Model model, @PathVariable("pageNo") int pageNo, @RequestParam("keyword") String keyword, Principal principal){
+    public String blockResult(Model model, @PathVariable("pageNo") int pageNo, @RequestParam(value = "keyword") String keyword, Principal principal){
         if (principal == null) {
             return "redirect:/login";
         }
@@ -69,6 +73,6 @@ public class BlockController {
         model.addAttribute("totalPages", blocks.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("blocks", blocks);
-        return "block-finding";
+        return "block-results";
     }
 }

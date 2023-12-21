@@ -250,20 +250,19 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div >
                     <p th:if = "${size==0}">Không có sản phẩm nào</p>
                 </div>
-<!--                <div class="card shadow mb-4" th:if="${size > 0}">-->
+                <div class="card shadow mb-4" th:if="${size > 0}">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
                     </div>
                     <div class="card-body" width="100%">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" th:if = "${size > 0}">
+                            <table class="table table-bordered" id="dataTable">
                                 <thead>
                                 <tr>
                                     <th>Number</th>
@@ -342,11 +341,9 @@
                                 </ul>
                             </nav>
                             <!--Pagination  -->
-
                         </div>
                     </div>
                 </div>
-
             <!-- End of Footer --->
         </div>
 
