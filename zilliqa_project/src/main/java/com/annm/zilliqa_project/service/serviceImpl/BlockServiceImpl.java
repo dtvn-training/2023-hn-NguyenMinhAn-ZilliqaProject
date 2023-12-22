@@ -41,7 +41,7 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public Page<Blocks> searchBlocks(int pageNo, String keyword) {
-        List<Blocks> blocks = blockRepository.findAllByMbInfoHash(keyword);
+        List<Blocks> blocks = blockRepository.findAllByKeyWord(keyword);
         Pageable pageable = PageRequest.of(pageNo, 5);
         Page<Blocks> blocksPage = toPage(blocks, pageable);
         return blocksPage;
@@ -51,6 +51,12 @@ public class BlockServiceImpl implements BlockService {
     public List<Blocks> findTop10Blocks() {
         List<Blocks> blocks = blockRepository.findFirst10ByOrderByNumberDesc();
         return blocks;
+    }
+
+    @Override
+    public Blocks getByNumber(int id) {
+        Blocks block = blockRepository.getById(id);
+        return block;
     }
 
     private Page toPage(List<Blocks> list, Pageable pageable){

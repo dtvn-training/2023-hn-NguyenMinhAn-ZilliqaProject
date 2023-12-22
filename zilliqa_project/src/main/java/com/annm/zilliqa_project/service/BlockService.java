@@ -15,4 +15,6 @@ public interface BlockService {
     Page<Blocks> searchBlocks(int pageNo, String keyword);
 
     List<Blocks> findTop10Blocks();
+
+    Blocks getByNumber(int id);
 }

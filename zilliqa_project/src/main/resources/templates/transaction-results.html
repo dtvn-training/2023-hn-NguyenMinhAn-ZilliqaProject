@@ -104,7 +104,6 @@
 
         <!-- Main Content -->
         <div>
-
             <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -190,7 +189,7 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Blocks Results</h1>
+                <h1 class="h3 mb-0 text-gray-800">Transactions Results</h1>
                 <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
                         class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </a>
             </div>
@@ -261,7 +260,7 @@
             <!--                        </button>-->
 
             <!-- Topbar Search -->
-            <form th:action="@{/user/search-blocks/0}" method="get" class="text-center">
+            <form th:action="@{/user/search-transactions/0}" method="get" class="text-center">
                 <div class="input-group w-50">
                     <input type="text" name="keyword" class="form-control bg-gradient-light border-0 small" placeholder="Search for..."
                            aria-label="Search" aria-describedby="basic-addon2">
@@ -306,81 +305,72 @@
         </div>
 
         <div >
-            <p th:if = "${size==0}">Can't find any matching blocks</p>
+            <p style="padding: 50px;"  th:if = "${size==0}">Can't find any matching transactions</p>
         </div>
         <div class="card shadow mb-4">
             <div class="card-body" width="100%">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Transaction Table</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" th:if="${size > 0}">
                         <thead>
                         <tr>
                             <th>Details</th>
-                            <th>Number</th>
-                            <th>DS Block Number</th>
+                            <th>Block Number</th>
+                            <th>ID</th>
                             <th>TimeStamp</th>
+                            <th>Amount</th>
+                            <th>Cumulative Gas</th>
+                            <th>Data</th>
+                            <th>Sender</th>
+                            <th>To Address</th>
+                            <th>Sender PubKey</th>
+                            <th>Signature</th>
+                            <th>Success</th>
+                            <th>Transaction ID</th>
                             <th>Version</th>
-                            <th>Gas Limit</th>
-                            <th>Gas Use</th>
-                            <th>MB Info Hash</th>
-                            <th>Num Micro Blocks</th>
-                            <th>Num Present Transactions</th>
-                            <th>Num Transactions</th>
-                            <th>Prev Block Hash</th>
-                            <th>Rewards</th>
-                            <th>State Delta Hash</th>
-                            <th>State Root Hash</th>
-                            <th>Tx Leader PubKey</th>
-                            <th>Tx Leader Address</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Details</th>
-                            <th>Number</th>
-                            <th>DS Block Number</th>
+                            <th>Block Number</th>
+                            <th>ID</th>
                             <th>TimeStamp</th>
+                            <th>Amount</th>
+                            <th>Cumulative Gas</th>
+                            <th>Data</th>
+                            <th>Sender</th>
+                            <th>To Address</th>
+                            <th>Sender PubKey</th>
+                            <th>Signature</th>
+                            <th>Success</th>
+                            <th>Transaction ID</th>
                             <th>Version</th>
-                            <th>Gas Limit</th>
-                            <th>Gas Use</th>
-                            <th>MB Info Hash</th>
-                            <th>Num Micro Blocks</th>
-                            <th>Num Present Transactions</th>
-                            <th>Num Transactions</th>
-                            <th>Prev Block Hash</th>
-                            <th>Rewards</th>
-                            <th>State Delta Hash</th>
-                            <th>State Root Hash</th>
-                            <th>Tx Leader PubKey</th>
-                            <th>Tx Leader Address</th>
                         </tr>
                         </tfoot>
                         <tbody>
-                        <tr th:each="block : ${blocks}">
+                        <tr th:each="transaction : ${transactions}">
                             <td>
-                                <a th:href="@{/user/block-detail/{id}(id = ${block.number})}" class="btn btn-outline-primary">
+                                <a th:href="@{/user/transaction-detail/{id}(id = ${transaction.t_id})}" class="btn btn-outline-primary">
                                     Details
                                 </a>
-                                <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
+                                <input type = "hidden" th:value = "${transaction.t_id}" name = "id" class = "form-control">
                             </td>
-                            <td th:text="${block.number}"></td>
-                            <td th:text="${block.dsBlockNumber}"></td>
-                            <td th:text="${block.timestamp}"></td>
-                            <td th:text="${block.version}"></td>
-                            <td th:text="${block.gasLimit}"></td>
-                            <td th:text="${block.gasUse}"></td>
-                            <td th:text="${block.mbInfoHash}"></td>
-                            <td th:text="${block.numMicroBlocks}"></td>
-                            <td th:text="${block.numPresentTransactions}"></td>
-                            <td th:text="${block.numTransactions}"></td>
-                            <td th:text="${block.prevBlockHash}"></td>
-                            <td th:text="${block.rewards}"></td>
-                            <td th:text="${block.stateDeltaHash}"></td>
-                            <td th:text="${block.stateRootHash}"></td>
-                            <td th:text="${block.txLeaderPubKey}"></td>
-                            <td th:text="${block.txLeaderAddress}"></td>
+                            <td th:text="${transaction.blocks.number}"></td>
+                            <td th:text="${transaction.t_id}"></td>
+                            <td th:text="${transaction.blockTimestamp}"></td>
+                            <td th:text="${transaction.amount}"></td>
+                            <td th:text="${transaction.cumulativeGas}"></td>
+                            <td th:text="${transaction.data}"></td>
+                            <td th:text="${transaction.sender}"></td>
+                            <td th:text="${transaction.toAddress}"></td>
+                            <td th:text="${transaction.senderPubKey}"></td>
+                            <td th:text="${transaction.signature}"></td>
+                            <td th:text="${transaction.success}"></td>
+                            <td th:text="${transaction.transactionId}"></td>
+                            <td th:text="${transaction.version}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -389,14 +379,14 @@
                     <nav aria-label="...">
                         <ul class="pagination" >
                             <li th:if= "${currentPage != 0}" class="page-item ">
-                                <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>
+                                <a th:href = "@{'/user/search-transactions/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>
                             </li>
                             <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                <a th:href = "@{'/user/search-transactions/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
                                     <span th:text = "${i}">
                                     </span></a></li>
                             <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">
-                                <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>
+                                <a th:href = "@{'/user/search-transactions/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>
                             </li>
                         </ul>
                     </nav>

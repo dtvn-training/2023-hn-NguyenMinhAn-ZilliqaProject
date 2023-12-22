@@ -3,8 +3,6 @@ package com.annm.zilliqa_project.controller;
 import com.annm.zilliqa_project.entity.Blocks;
 import com.annm.zilliqa_project.entity.Exceptions;
 import com.annm.zilliqa_project.entity.Transactions;
-import com.annm.zilliqa_project.repository.BlockRepository;
-import com.annm.zilliqa_project.service.BlockService;
 import com.annm.zilliqa_project.service.serviceImpl.BlockServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.ExceptionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
@@ -24,8 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
-public class BlockController {
-
+public class TransactionController {
     @Autowired
     private UserServiceImpl userService;
 
@@ -41,29 +38,29 @@ public class BlockController {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/block")
-    public String block(Model model, Principal principal){
+    @GetMapping("/transaction")
+    public String transaction(Model model, Principal principal){
         if (principal == null) {
             return "redirect:/login";
         }
-        List<Blocks> blocks = blockService.findTop10Blocks();
+        List<Transactions> transactions = transactionService.findTop10Transactions();
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
         Long countException = exceptionService.count();
-        model.addAttribute("blocks", blocks);
+        model.addAttribute("transactions", transactions);
         model.addAttribute("countBlock", countBlock);
         model.addAttribute("countTransaction", countTransaction);
         model.addAttribute("countException", countException);
-        model.addAttribute("title", "Blocks Finding");
-        return "block-finding";
+        model.addAttribute("title", "Transactions Finding");
+        return "transaction-finding";
     }
 
-    @GetMapping("/search-blocks/{pageNo}")
+    @GetMapping("/search-transactions/{pageNo}")
     public String blockResult(Model model, @PathVariable("pageNo") int pageNo, @RequestParam(value = "keyword") String keyword, Principal principal){
         if (principal == null) {
             return "redirect:/login";
         }
-        Page<Blocks> blocks = blockService.searchBlocks(pageNo, keyword);
+        Page<Transactions> transactions = transactionService.searchTransactions(pageNo, keyword);
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
         Long countException = exceptionService.count();
@@ -71,32 +68,31 @@ public class BlockController {
         model.addAttribute("countTransaction", countTransaction);
         model.addAttribute("countException", countException);
         model.addAttribute("title", "Search Results");
-        model.addAttribute("size", blocks.getSize());
-        model.addAttribute("totalPages", blocks.getTotalPages());
+        model.addAttribute("size", transactions.getSize());
+        model.addAttribute("totalPages", transactions.getTotalPages());
         model.addAttribute("currentPage", pageNo);
-        model.addAttribute("blocks", blocks);
+        model.addAttribute("transactions", transactions);
         model.addAttribute("keyword", keyword);
-        return "block-results";
+        return "transaction-results";
     }
 
-    @GetMapping("/block-detail/{id}")
-    public String blockDetails(@PathVariable("id") int id, Model model, Principal principal){
+    @GetMapping("/transaction-detail/{id}")
+    public String transactionDetails(@PathVariable("id") int id, Model model, Principal principal){
         if (principal == null) {
             return "redirect:/login";
         }
-        Blocks block = blockService.getByNumber(id);
-        List<Transactions> transactions = transactionService.getByBlockNumber(id);
-        List<Exceptions> exceptions = exceptionService.getByBlockNumber(id);
+        Transactions transactions = transactionService.getById(id);
+        String transactionId = transactions.getTransactionId();
+        List<Exceptions> exceptions = exceptionService.getByTransactionId(transactionId);
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
         Long countException = exceptionService.count();
         model.addAttribute("countBlock", countBlock);
         model.addAttribute("countTransaction", countTransaction);
         model.addAttribute("countException", countException);
-        model.addAttribute("title", "Block Details");
-        model.addAttribute("blocks", block);
+        model.addAttribute("title", "Transaction Details");
         model.addAttribute("transactions", transactions);
         model.addAttribute("exceptions", exceptions);
-        return "block-details";
+        return "transaction-details";
     }
 }

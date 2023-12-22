@@ -68,7 +68,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
                         <a class="collapse-item" th:href="@{/user/block}" href="buttons.html">Blocks</a>
-                        <a class="collapse-item" href="cards.html">Transactions</a>
+                        <a class="collapse-item" th:href="@{/user/transaction}" href="cards.html">Transactions</a>
                     </div>
                 </div>
             </li>
@@ -279,8 +279,8 @@
                                     <th>Rewards</th>
                                     <th>State Delta Hash</th>
                                     <th>State Root Hash</th>
-                                    <th>Tx Leader Address</th>
                                     <th>Tx Leader PubKey</th>
+                                    <th>Tx Leader Address</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -299,8 +299,8 @@
                                     <th>Rewards</th>
                                     <th>State Delta Hash</th>
                                     <th>State Root Hash</th>
-                                    <th>Tx Leader Address</th>
                                     <th>Tx Leader PubKey</th>
+                                    <th>Tx Leader Address</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -337,6 +337,34 @@
                                              </span></a></li>
                                     <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
                                         <a th:href = "@{'/user/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <li th:if="${currentPage != 0}" class="page-item">
+                                        <a th:href="@{'/user/home/0'}" class="page-link">First</a>
+                                    </li>
+                                    <li th:if="${currentPage > 5}" class="page-item">
+                                        <a class="page-link">...</a>
+                                    </li>
+                                    <li th:if= "${currentPage != 0}" class="page-item ">
+                                        <a th:href = "@{'/user/home/' + ${currentPage - 1}}" class="page-link">Previous</a>
+                                    </li >
+                                    <li th:each="i : ${#numbers.sequence(Math.max(0, currentPage - 2), Math.min(totalPages - 1, currentPage + 2))}"
+                                        th:classappend="${currentPage == i ? 'active' : ''}" class="page-item">
+                                        <a th:href="@{'/user/home/' + i}" class="page-link">
+                                            <span th:text="${i + 1}"></span>
+                                        </a>
+                                    </li>
+                                    <li th:unless="${currentPage + 1 == totalPages}" class="page-item">
+                                        <a th:href="@{'/user/home/' + (${currentPage + 1})}" class="page-link">Next</a>
+                                    </li>
+                                    <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+                                        <a class="page-link">...</a>
+                                    </li>
+                                    <li th:if="${currentPage != totalPages - 1}" class="page-item">
+                                        <a th:href="@{'/user/home/' + (${totalPages - 1})}" class="page-link">Last</a>
                                     </li>
                                 </ul>
                             </nav>

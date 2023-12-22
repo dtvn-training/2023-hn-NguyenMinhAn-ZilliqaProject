@@ -103,7 +103,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div>
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -190,7 +190,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Blocks Finding</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Block Details</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </a>
                     </div>
@@ -309,8 +309,8 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
+                        <div class="table-responsive" >
+                            <table class="table table-bordered" style="max-width: 100%;">
                                 <thead>
                                 <tr>
                                     <th>Number</th>
@@ -373,22 +373,156 @@
                                 </tbody>
                             </table>
 
-<!--                            Pagination  -->
+                            <!--  Pagination  -->
 <!--                            <nav aria-label="...">-->
 <!--                                <ul class="pagination" >-->
 <!--                                    <li th:if= "${currentPage != 0}" class="page-item ">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${currentPage - 1}}" class="page-link">Previous</a>-->
-<!--                                    </li >-->
+<!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>-->
+<!--                                    </li>-->
 <!--                                    <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">-->
-<!--                                             <span th:text = "${i}">-->
-<!--                                             </span></a></li>-->
-<!--                                    <li th:if = "${currentPage + 1 != totalPages}" class="page-item">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>-->
+<!--                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">-->
+<!--                                    <span th:text = "${i}">-->
+<!--                                    </span></a></li>-->
+<!--                                    <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">-->
+<!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>-->
 <!--                                    </li>-->
 <!--                                </ul>-->
 <!--                            </nav>-->
-<!--                            Pagination  -->
+                            <!--  Pagination  -->
+                        </div>
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Transactions Table</h6>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Block Number</th>
+                                        <th>ID</th>
+                                        <th>TimeStamp</th>
+                                        <th>Amount</th>
+                                        <th>Cumulative Gas</th>
+                                        <th>Data</th>
+                                        <th>Sender</th>
+                                        <th>To Address</th>
+                                        <th>Sender PubKey</th>
+                                        <th>Signature</th>
+                                        <th>Success</th>
+                                        <th>Transaction ID</th>
+                                        <th>Version</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Block Number</th>
+                                        <th>ID</th>
+                                        <th>TimeStamp</th>
+                                        <th>Amount</th>
+                                        <th>Cumulative Gas</th>
+                                        <th>Data</th>
+                                        <th>Sender</th>
+                                        <th>To Address</th>
+                                        <th>Sender PubKey</th>
+                                        <th>Signature</th>
+                                        <th>Success</th>
+                                        <th>Transaction ID</th>
+                                        <th>Version</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr th:each="transaction : ${transactions}">
+                                        <td th:text="${transaction.blocks.number}"></td>
+                                        <td th:text="${transaction.t_id}"></td>
+                                        <td th:text="${transaction.blockTimestamp}"></td>
+                                        <td th:text="${transaction.amount}"></td>
+                                        <td th:text="${transaction.cumulativeGas}"></td>
+                                        <td th:text="${transaction.data}"></td>
+                                        <td th:text="${transaction.sender}"></td>
+                                        <td th:text="${transaction.toAddress}"></td>
+                                        <td th:text="${transaction.senderPubKey}"></td>
+                                        <td th:text="${transaction.signature}"></td>
+                                        <td th:text="${transaction.success}"></td>
+                                        <td th:text="${transaction.transactionId}"></td>
+                                        <td th:text="${transaction.version}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--  Pagination  -->
+                                <!--                            <nav aria-label="...">-->
+                                <!--                                <ul class="pagination" >-->
+                                <!--                                    <li th:if= "${currentPage != 0}" class="page-item ">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>-->
+                                <!--                                    </li>-->
+                                <!--                                    <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">-->
+                                <!--                                    <span th:text = "${i}">-->
+                                <!--                                    </span></a></li>-->
+                                <!--                                    <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>-->
+                                <!--                                    </li>-->
+                                <!--                                </ul>-->
+                                <!--                            </nav>-->
+                                <!--  Pagination  -->
+                            </div>
+
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Exceptions Table</h6>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Block Number</th>
+                                        <th>ID</th>
+                                        <th>TimeStamp</th>
+                                        <th>Index</th>
+                                        <th>Line</th>
+                                        <th>Message</th>
+                                        <th>Transaction ID</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Block Number</th>
+                                        <th>ID</th>
+                                        <th>TimeStamp</th>
+                                        <th>Index</th>
+                                        <th>Line</th>
+                                        <th>Message</th>
+                                        <th>Transaction ID</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr th:each="exception : ${exceptions}">
+                                        <td th:text="${exception.blocks.number}"></td>
+                                        <td th:text="${exception.e_id}"></td>
+                                        <td th:text="${exception.blockTimestamp}"></td>
+                                        <td th:text="${exception.index}"></td>
+                                        <td th:text="${exception.line}"></td>
+                                        <td th:text="${exception.message}"></td>
+                                        <td th:text="${exception.transactionId}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--  Pagination  -->
+                                <!--                            <nav aria-label="...">-->
+                                <!--                                <ul class="pagination" >-->
+                                <!--                                    <li th:if= "${currentPage != 0}" class="page-item ">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>-->
+                                <!--                                    </li>-->
+                                <!--                                    <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">-->
+                                <!--                                    <span th:text = "${i}">-->
+                                <!--                                    </span></a></li>-->
+                                <!--                                    <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">-->
+                                <!--                                        <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>-->
+                                <!--                                    </li>-->
+                                <!--                                </ul>-->
+                                <!--                            </nav>-->
+                                <!--  Pagination  -->
+                            </div>
                         </div>
                     </div>
                 </div>
