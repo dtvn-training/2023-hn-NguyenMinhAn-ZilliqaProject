@@ -1,5 +1,7 @@
 package com.annm.zilliqa_project.controller;
 
+import com.annm.zilliqa_project.repository.ExceptionRepository;
+import com.annm.zilliqa_project.repository.TransactionRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -19,6 +21,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user")
 public class BatchController {
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    @Autowired
+    ExceptionRepository exceptionRepository;
+
     @Autowired
     @Qualifier("runJob1")
     private Job runJob1;
@@ -43,11 +52,13 @@ public class BatchController {
             e.printStackTrace();
         }
     }
-    @GetMapping("/runBatch")
+    @GetMapping("/run-batch")
     public String goBatch(){
+        transactionRepository.deleteAll();
+        exceptionRepository.deleteAll();
         runJob(jobLauncherAsync, runJob1);
         runJob(jobLauncherAsync, runJob2);
         runJob(jobLauncherAsync, runJob3);
-        return "batch-process";
+        return "redirect:/home";
     }
 }
