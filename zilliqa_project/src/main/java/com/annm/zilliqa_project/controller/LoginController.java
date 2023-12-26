@@ -46,54 +46,6 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("/overview")
-    public String home(Model model){
-        model.addAttribute("title", "Overview Page");
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
-//            return "redirect:/login";
-//        }
-//        Long countBlock = blockService.count();
-//        Long countTransaction = transactionService.count();
-//        Long countException = exceptionService.count();
-//        model.addAttribute("countBlock", countBlock);
-//        model.addAttribute("countTransaction", countTransaction);
-//        model.addAttribute("countException", countException);
-        int pageNo = 0;
-        Page<Blocks> blocks = blockService.getAllBlocks(pageNo);
-        Long countBlock = blockService.count();
-        Long countTransaction = transactionService.count();
-        Long countException = exceptionService.count();
-        model.addAttribute("countBlock", countBlock);
-        model.addAttribute("countTransaction", countTransaction);
-        model.addAttribute("countException", countException);
-        model.addAttribute("title", "Overview Page");
-        model.addAttribute("size", blocks.getSize());
-        model.addAttribute("totalPages", blocks.getTotalPages());
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("blocks", blocks);
-        return "overview";
-    }
-
-    @GetMapping("/overview/{pageNo}")
-    public String blocksPage(@PathVariable("pageNo") int pageNo, Model model){
-        Page<Blocks> blocks = blockService.getAllBlocks(pageNo);
-        Long countBlock = blockService.count();
-        Long countTransaction = transactionService.count();
-        Long countException = exceptionService.count();
-        model.addAttribute("countBlock", countBlock);
-        model.addAttribute("countTransaction", countTransaction);
-        model.addAttribute("countException", countException);
-        model.addAttribute("title", "Overview Page");
-        model.addAttribute("size", blocks.getSize());
-        model.addAttribute("totalPages", blocks.getTotalPages());
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("blocks", blocks);
-        return "overview";
-    }
-
-
-
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("userDto", new UserDto());

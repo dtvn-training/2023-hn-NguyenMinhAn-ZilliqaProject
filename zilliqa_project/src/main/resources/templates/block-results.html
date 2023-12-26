@@ -386,21 +386,103 @@
                     </table>
 
                     <!--  Pagination  -->
+<!--                    <nav aria-label="...">-->
+<!--                        <ul class="pagination" >-->
+<!--                            <li th:if= "${currentPage != 0}" class="page-item ">-->
+<!--                                <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>-->
+<!--                            </li>-->
+<!--                            <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
+<!--                                <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">-->
+<!--                                    <span th:text = "${i}">-->
+<!--                                    </span></a></li>-->
+<!--                            <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">-->
+<!--                                <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </nav>-->
+                    <!--  Pagination  -->
+                </div>
+
+                <div class="card-body" width="100%">
+                    <input type="hidden" id="keyword" th:value="${keyword}" />
+                    <!--Pagination  -->
                     <nav aria-label="...">
-                        <ul class="pagination" >
+                        <hr>
+
+                        <div style="padding-bottom: 5px;">
+                            <span>Total pages: </span>
+                            <span th:text="${totalPages}"></span>
+                        </div>
+
+                        <div style="padding-bottom: 12px;">
+                            <form class="form-inline" id="goToPageForm">
+                                <label style="padding-right: 5px;">Go to page: </label>
+                                <input class="form-control" type="number" id="pageInput" min="1" max="${totalPages}" style="padding: 5px; margin-right: 5px;" placeholder="Enter page" required>
+                                <button id="goLink" class="go-link btn btn-outline-primary" type="submit">Go</button>
+                            </form>
+                        </div>
+
+                        <ul class="pagination">
+
+                            <li th:if="${currentPage != 0}" class="page-item">
+                                <a th:href="@{'/user/search-blocks/0'} + '?keyword=' + ${keyword}" class="page-link">First</a>
+                            </li>
+
                             <li th:if= "${currentPage != 0}" class="page-item ">
                                 <a th:href = "@{'/user/search-blocks/' + ${currentPage - 1}} + '?keyword=' + ${keyword}" class="page-link">Previous</a>
-                            </li>
-                            <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
-                                    <span th:text = "${i}">
-                                    </span></a></li>
-                            <li th:if = "${currentPage + 1 != totalPages} + '?keyword=' + ${keyword}" class="page-item">
+                            </li >
+
+                            <th:block th:if="${totalPages <= 10}">
+                                <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                                    <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                                     <span th:text = "${i}">
+                                                     </span></a></li>
+                            </th:block>
+
+                            <th:block th:if="${totalPages > 10}">
+                                <th:block th:if="${currentPage < 5 || currentPage >= totalPages - 4}">
+                                    <li th:each = "i : ${#numbers.sequence(1, 5)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                            <span th:text = "${i}"></span>
+                                        </a>
+                                    </li>
+
+                                    <a th:href = "@{'/user/search-blocks/5'} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                        <span th:text = "..."></span>
+                                    </a>
+
+                                    <li th:each = "i : ${#numbers.sequence(totalPages - 4, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                            <span th:text = "${i}"></span>
+                                        </a>
+                                    </li>
+                                </th:block>
+
+                                <th:block th:if="${currentPage >= 5 && currentPage < totalPages - 4}">
+                                    <a th:href = "@{'/user/search-blocks/' + ${currentPage - 4}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                        <span th:text = "..."></span>
+                                    </a>
+
+                                    <li th:each = "i : ${#numbers.sequence(currentPage - 2, currentPage + 4)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                                        <a th:href = "@{'/user/search-blocks/' + ${i - 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                            <span th:text = "${i}"></span>
+                                        </a>
+                                    </li>
+
+                                    <a th:href = "@{'/user/search-blocks/' + ${currentPage + 4}} + '?keyword=' + ${keyword}" class="page-link" href="#">
+                                        <span th:text = "..."></span>
+                                    </a>
+                                </th:block>
+                            </th:block>
+                            <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
                                 <a th:href = "@{'/user/search-blocks/' + ${currentPage + 1}} + '?keyword=' + ${keyword}" class="page-link" href="#">Next</a>
+                            </li>
+
+                            <li th:if="${currentPage != totalPages - 1}" class="page-item">
+                                <a th:href="@{'/user/search-blocks/' + ${totalPages - 1}} + '?keyword=' + ${keyword}" class="page-link">Last</a>
                             </li>
                         </ul>
                     </nav>
-                    <!--  Pagination  -->
                 </div>
             </div>
         </div>
@@ -450,7 +532,30 @@
     <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
     <script src="https://kit.fontawesome.com/d51c9bc111.js" crossorigin="anonymous"></script>
 
+    <script th:inline="javascript">
+        var keyword = document.getElementById('keyword').value;
+        if(keyword == ''){
+            document.getElementById('goLink').addEventListener('click', function(event) {
+          event.preventDefault();
 
+          // Lấy giá trị của trang được nhập
+          var page = document.getElementById('pageInput').value;
+
+          // Chuyển đến trang đã nhập
+          window.location.href = '/user/search-blocks/' + (page - 1) + '?keyword=';
+        });
+        } else {
+        document.getElementById('goLink').addEventListener('click', function(event) {
+          event.preventDefault();
+
+          // Lấy giá trị của trang được nhập
+          var page = document.getElementById('pageInput').value;
+
+          // Chuyển đến trang đã nhập
+          window.location.href = '/user/search-blocks/' + (page - 1) + '?keyword=' + keyword;
+        });
+        }
+    </script>
 
 </body>
 
