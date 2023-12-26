@@ -33,7 +33,7 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public Page<Blocks> getAllBlocks(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 35);
+        Pageable pageable = PageRequest.of(pageNo, 5);
         List<Blocks> blocksList = this.allBlocks();
         Page<Blocks> blocksPage = toPage(blocksList, pageable);
         return blocksPage;
