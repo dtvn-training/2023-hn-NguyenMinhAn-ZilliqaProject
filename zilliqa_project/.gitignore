@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -29,7 +30,14 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+**/src/main/java/com/annm/zilliqa_project/service/BigQueryService.java
+
 ### VS Code ###
 .vscode/
 
-.idea
+
+src/main/resources/SecretKey/blissful-hash-405809-b462582d533c.json
+
+**/SecretKey/**
+**/SecretKey
+

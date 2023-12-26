@@ -1,5 +1,6 @@
 package com.annm.zilliqa_project;
 
+import com.annm.zilliqa_project.entity.Transactions;
 import com.annm.zilliqa_project.service.BigQueryService;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
@@ -11,6 +12,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.File;
@@ -19,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class ZilliqaProjectApplication {
-
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext context = SpringApplication.run(ZilliqaProjectApplication.class, args);
@@ -29,31 +30,6 @@ public class ZilliqaProjectApplication {
 		boolean exit = false;
 		Job job = context.getBean("runJob", Job.class);
 		JobLauncher jobLauncher = context.getBean(JobLauncher.class);
-
-//		while (!exit) {
-//			System.out.println("Menu:");
-//			System.out.println("1. Run CSV to Database");
-//			System.out.println("2. Run Database to CSV");
-//			System.out.println("3. Exit");
-//
-//			System.out.print("Enter your choice: ");
-//			String choice = System.getProperty("job1");
-//
-//			switch (choice) {
-//				case "1":
-//					runJob(jobLauncher, job1);
-//					break;
-//				case "2":
-//					runJob(jobLauncher, job2);
-//					break;
-//				case "3":
-//					exit = true;
-//					break;
-//				default:
-//					System.out.println("Invalid choice. Please enter a valid option.");
-//					break;
-//			}
-//		}
 
 		String VMArgumentsList[] = ManagementFactory.getRuntimeMXBean().getInputArguments().toArray(new String[0]);
 		List<String> JobList = new ArrayList<String>();
@@ -76,9 +52,19 @@ public class ZilliqaProjectApplication {
 			}
 		}
 
-		context.close();
+//		context.close();
 
 
+	}
+
+	public static void runJob(JobLauncher jobLauncher, Job job) {
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("startAt", System.currentTimeMillis()).toJobParameters();
+		try {
+			jobLauncher.run(job, jobParameters);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 //	static String fullVMArguments() {
@@ -116,15 +102,7 @@ public class ZilliqaProjectApplication {
 //		return buf.toString();
 //	}
 
-	public static void runJob(JobLauncher jobLauncher, Job job) {
-		JobParameters jobParameters = new JobParametersBuilder()
-				.addLong("startAt", System.currentTimeMillis()).toJobParameters();
-		try {
-			jobLauncher.run(job, jobParameters);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 
 }
