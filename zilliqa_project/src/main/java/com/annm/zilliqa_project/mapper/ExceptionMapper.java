@@ -10,7 +10,6 @@ import org.springframework.core.convert.converter.Converter;
 
 public class ExceptionMapper implements Converter<FieldValueList, Exceptions> {
 
-    TransactionRepository transactionRepository;
     @Override
     public Exceptions convert(FieldValueList row) {
         Double blockTimestamp = row.get("block_timestamp").getDoubleValue();

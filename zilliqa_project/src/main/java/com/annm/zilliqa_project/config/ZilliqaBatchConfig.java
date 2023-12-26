@@ -14,21 +14,32 @@ import com.annm.zilliqa_project.step.BigQueryItemReader;
 import com.annm.zilliqa_project.step.BigQueryItemWriter;
 import com.google.cloud.bigquery.*;
 import lombok.AllArgsConstructor;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @Configuration
 @EnableBatchProcessing
+@EnableScheduling
 @AllArgsConstructor
 public class ZilliqaBatchConfig {
 
@@ -46,6 +57,9 @@ public class ZilliqaBatchConfig {
 
     @Autowired
     private BlockRepository blockRepository;
+
+    @Autowired
+    private JobRepository jobRepository;
 
     // Step for Block
     @Bean
@@ -164,14 +178,38 @@ public class ZilliqaBatchConfig {
                 .build();
     }
 
-    
-
     @Bean
-    public Job runJob(){
-        return jobBuilderFactory.get("ZilliqaToDB")
-                .start(step1())
-                .next(step3())
-                .next(step2())
+    public Job runJob1(){
+        return jobBuilderFactory.get("blocksToDB")
+                .flow(step1())
+                .end()
                 .build();
     }
+
+    @Bean
+    public Job runJob2(){
+        return jobBuilderFactory.get("exceptionsToDB")
+                .flow(step2())
+                .end()
+                .build();
+    }
+
+    @Bean
+    public Job runJob3(){
+        return jobBuilderFactory.get("transactionsToDB")
+                .flow(step3())
+                .end()
+                .build();
+    }
+
+    @Bean
+    public JobLauncher jobLauncherAsync() throws Exception
+    {
+        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+        jobLauncher.setJobRepository(jobRepository);
+        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        jobLauncher.afterPropertiesSet();
+        return jobLauncher;
+    }
+
 }
