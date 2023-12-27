@@ -19,10 +19,15 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.RepositoryItemWriter;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +37,9 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -135,6 +142,7 @@ public class ZilliqaBatchConfig {
                 .<Exceptions, Exceptions>chunk(10)
                 .reader(bigQueryExceptionItemReader())
                 .writer(bigQueryExceptionItemWriter())
+                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -175,30 +183,28 @@ public class ZilliqaBatchConfig {
                 .<Transactions, Transactions>chunk(10)
                 .reader(bigQueryTransactionItemReader())
                 .writer(bigQueryTransactionItemWriter())
+                .allowStartIfComplete(true)
                 .build();
     }
 
     @Bean
     public Job runJob1(){
         return jobBuilderFactory.get("blocksToDB")
-                .flow(step1())
-                .end()
+                .start(step1())
                 .build();
     }
 
     @Bean
     public Job runJob2(){
         return jobBuilderFactory.get("exceptionsToDB")
-                .flow(step2())
-                .end()
+                .start(step2())
                 .build();
     }
 
     @Bean
     public Job runJob3(){
         return jobBuilderFactory.get("transactionsToDB")
-                .flow(step3())
-                .end()
+                .start(step3())
                 .build();
     }
 

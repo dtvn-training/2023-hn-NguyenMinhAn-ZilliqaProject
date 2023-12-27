@@ -15,7 +15,6 @@ public class BigQueryItemWriter<T> extends RepositoryItemWriter<T>{
         RepositoryItemWriter<T> writer = new RepositoryItemWriter<>();
         writer.setRepository(repository);
         writer.setMethodName("save");
-        System.out.println("Complete!");
         return writer;
     }
 }

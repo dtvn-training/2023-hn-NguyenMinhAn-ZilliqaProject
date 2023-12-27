@@ -54,8 +54,6 @@ public class BatchController {
     }
     @GetMapping("/run-batch")
     public String goBatch(){
-        transactionRepository.deleteAll();
-        exceptionRepository.deleteAll();
         runJob(jobLauncherAsync, runJob1);
         runJob(jobLauncherAsync, runJob2);
         runJob(jobLauncherAsync, runJob3);
