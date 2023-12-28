@@ -99,4 +99,20 @@ public class BlockController {
         model.addAttribute("exceptions", exceptions);
         return "block-details";
     }
+
+    @GetMapping("/update-block/{id}")
+    public String updateBlockForm(@PathVariable("id") int id, Model model, Principal principal){
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        Blocks block = blockService.getByNumber(id);
+        Long countBlock = blockService.count();
+        Long countTransaction = transactionService.count();
+        Long countException = exceptionService.count();
+        model.addAttribute("countBlock", countBlock);
+        model.addAttribute("countTransaction", countTransaction);
+        model.addAttribute("countException", countException);
+        model.addAttribute("block", block);
+        return "update-block";
+    }
 }

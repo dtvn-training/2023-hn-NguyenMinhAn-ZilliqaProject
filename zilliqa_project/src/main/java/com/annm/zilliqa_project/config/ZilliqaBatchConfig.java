@@ -133,6 +133,7 @@ public class ZilliqaBatchConfig {
         RepositoryItemWriter<Exceptions> writer = new RepositoryItemWriter<>();
         writer.setRepository(exceptionRepository);
         writer.setMethodName("save");
+
         return writer;
     }
 
