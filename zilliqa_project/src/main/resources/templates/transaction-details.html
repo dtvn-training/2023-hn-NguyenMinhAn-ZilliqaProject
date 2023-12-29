@@ -114,18 +114,18 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<!--                    <form-->
+<!--                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                        <div class="input-group">-->
+<!--                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."-->
+<!--                                aria-label="Search" aria-describedby="basic-addon2">-->
+<!--                            <div class="input-group-append">-->
+<!--                                <button class="btn btn-primary" type="button">-->
+<!--                                    <i class="fas fa-search fa-sm"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -191,8 +191,48 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Transaction Details</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </a>
+                        <button id="runBatchButton" data-toggle="modal" data-target="#exampleModal" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </button>
+                    </div>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="">WARNING!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to update the data?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button onclick="startBatch()" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="loadingModal" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Updating...</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="spinner-border text-primary"  role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Content Row -->
@@ -488,7 +528,39 @@
     <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
     <script src="https://kit.fontawesome.com/d51c9bc111.js" crossorigin="anonymous"></script>
 
+    <script>
+        var confirmationModal = document.getElementById("confirmationModal");
+        var loadingModal = document.getElementById("loadingModal");
 
+        function showConfirmation() {
+            // Show confirmation modal
+            confirmationModal.style.display = "block";
+        }
+
+        function hideConfirmation() {
+            // Hide confirmation modal
+            confirmationModal.style.display = "none";
+        }
+
+        function startBatch() {
+
+            loadingModal.style.display = "block";
+
+            fetch("/user/run-batch")
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    setTimeout(() => {
+                        loadingModal.style.display = "none";
+                    }, 20000);
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Handle error and hide loading modal
+                    loadingModal.style.display = "none";
+                });
+        }
+    </script>
 
 </body>
 

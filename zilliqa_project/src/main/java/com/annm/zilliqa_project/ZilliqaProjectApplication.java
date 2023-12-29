@@ -24,48 +24,47 @@ import java.util.List;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class ZilliqaProjectApplication {
 	public static void main(String[] args) {
-
-		ConfigurableApplicationContext context = SpringApplication.run(ZilliqaProjectApplication.class, args);
-
-		boolean exit = false;
-		Job job = context.getBean("runJob", Job.class);
-		JobLauncher jobLauncher = context.getBean(JobLauncher.class);
-
-		String VMArgumentsList[] = ManagementFactory.getRuntimeMXBean().getInputArguments().toArray(new String[0]);
-		List<String> JobList = new ArrayList<String>();
-		for (String s : VMArgumentsList) {
-			if (s.contains("-Djob")){
-				int equalIndex = s.indexOf("=");
-				s = s.substring(2, equalIndex);
-				JobList.add(s);
-			}
-		}
-		for (String s : JobList) {
-			String choice = System.getProperty(s);
-			switch (choice) {
-				case "BQToDB":
-					runJob(jobLauncher, job);
-					break;
-				default:
-					System.out.println("Invalid choice. Please enter a valid option.");
-					break;
-			}
-		}
+		SpringApplication.run(ZilliqaProjectApplication.class, args);
+//
+//		boolean exit = false;
+//		Job job = context.getBean("runJob", Job.class);
+//		JobLauncher jobLauncher = context.getBean(JobLauncher.class);
+//
+//		String VMArgumentsList[] = ManagementFactory.getRuntimeMXBean().getInputArguments().toArray(new String[0]);
+//		List<String> JobList = new ArrayList<String>();
+//		for (String s : VMArgumentsList) {
+//			if (s.contains("-Djob")){
+//				int equalIndex = s.indexOf("=");
+//				s = s.substring(2, equalIndex);
+//				JobList.add(s);
+//			}
+//		}
+//		for (String s : JobList) {
+//			String choice = System.getProperty(s);
+//			switch (choice) {
+//				case "BQToDB":
+//					runJob(jobLauncher, job);
+//					break;
+//				default:
+//					System.out.println("Invalid choice. Please enter a valid option.");
+//					break;
+//			}
+//		}
 
 //		context.close();
 
 
 	}
 
-	public static void runJob(JobLauncher jobLauncher, Job job) {
-		JobParameters jobParameters = new JobParametersBuilder()
-				.addLong("startAt", System.currentTimeMillis()).toJobParameters();
-		try {
-			jobLauncher.run(job, jobParameters);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void runJob(JobLauncher jobLauncher, Job job) {
+//		JobParameters jobParameters = new JobParametersBuilder()
+//				.addLong("startAt", System.currentTimeMillis()).toJobParameters();
+//		try {
+//			jobLauncher.run(job, jobParameters);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 //	static String fullVMArguments() {
 //		String name = javaVmName();
@@ -101,8 +100,6 @@ public class ZilliqaProjectApplication {
 //		}
 //		return buf.toString();
 //	}
-
-
 
 
 }
