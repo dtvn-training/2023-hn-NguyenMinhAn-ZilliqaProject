@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExceptionRepository extends JpaRepository<Exceptions, Integer> {
+public interface ExceptionRepository extends CustomRepository<Exceptions, Integer> {
     List<Exceptions> findByBlocksNumber(int id);
 
     List<Exceptions> findByTransactionId(String id);

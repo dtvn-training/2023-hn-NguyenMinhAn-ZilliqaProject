@@ -1,6 +1,7 @@
 package com.annm.zilliqa_project;
 
 import com.annm.zilliqa_project.entity.Transactions;
+import com.annm.zilliqa_project.repository.CustomRepositoryImpl;
 import com.annm.zilliqa_project.service.BigQueryService;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -22,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@EnableJpaRepositories(repositoryBaseClass = CustomRepositoryImpl.class)
 public class ZilliqaProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZilliqaProjectApplication.class, args);

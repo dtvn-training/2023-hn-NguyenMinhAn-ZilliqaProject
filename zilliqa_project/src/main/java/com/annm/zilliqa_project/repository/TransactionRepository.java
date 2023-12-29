@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transactions, Integer> {
+public interface TransactionRepository extends CustomRepository<Transactions, Integer> {
     List<Transactions> findByBlocksNumber(int id);
 
     List<Transactions> findFirst10ByOrderByAmountDesc();

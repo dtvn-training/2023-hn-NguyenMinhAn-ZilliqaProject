@@ -56,7 +56,7 @@ public class BatchController {
     public String goBatch(){
         exceptionRepository.deleteAll();
         transactionRepository.deleteAll();
-//        runJob(jobLauncherAsync, runJob1);
+        runJob(jobLauncherAsync, runJob1);
         runJob(jobLauncherAsync, runJob2);
         runJob(jobLauncherAsync, runJob3);
         return "redirect:/home";

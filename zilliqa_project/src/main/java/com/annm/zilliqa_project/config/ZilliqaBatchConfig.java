@@ -8,6 +8,7 @@ import com.annm.zilliqa_project.mapper.ExceptionMapper;
 import com.annm.zilliqa_project.mapper.TransactionMapper;
 import com.annm.zilliqa_project.repository.BlockRepository;
 import com.annm.zilliqa_project.repository.ExceptionRepository;
+import com.annm.zilliqa_project.repository.RepositoryItemWriterCustom;
 import com.annm.zilliqa_project.repository.TransactionRepository;
 import com.annm.zilliqa_project.service.BigQueryService;
 import com.annm.zilliqa_project.step.BigQueryItemReader;
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -133,7 +135,6 @@ public class ZilliqaBatchConfig {
         RepositoryItemWriter<Exceptions> writer = new RepositoryItemWriter<>();
         writer.setRepository(exceptionRepository);
         writer.setMethodName("save");
-
         return writer;
     }
 
@@ -171,8 +172,8 @@ public class ZilliqaBatchConfig {
     }
 
     @Bean
-    public RepositoryItemWriter<Transactions> bigQueryTransactionItemWriter(){
-        RepositoryItemWriter<Transactions> writer = new RepositoryItemWriter<>();
+    public RepositoryItemWriterCustom<Transactions> bigQueryTransactionItemWriter(){
+        RepositoryItemWriterCustom<Transactions> writer = new RepositoryItemWriterCustom<>();
         writer.setRepository(transactionRepository);
         writer.setMethodName("save");
         return writer;
