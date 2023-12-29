@@ -69,7 +69,6 @@ public class ZilliqaBatchConfig {
     private JobRepository jobRepository;
 
     // Step for Block
-    @Bean
     BigQueryItemReader<Blocks> bigQueryBlockItemReader(){
         BigQueryItemReader<Blocks> bigQueryItemReader = new BigQueryItemReader<>();
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.tx_blocks`.*\n" +
@@ -89,7 +88,6 @@ public class ZilliqaBatchConfig {
         return bigQueryItemReader;
     }
 
-    @Bean
     public RepositoryItemWriter<Blocks> bigQueryBlockItemWriter(){
         RepositoryItemWriter<Blocks> writer = new RepositoryItemWriter<>();
         writer.setRepository(blockRepository);
@@ -97,7 +95,6 @@ public class ZilliqaBatchConfig {
         return writer;
     }
 
-    @Bean
     public Step step1(){
         return stepBuilderFactory.get("blocksToDB-step")
                 .<Blocks, Blocks>chunk(10)
@@ -109,7 +106,6 @@ public class ZilliqaBatchConfig {
 
 
     // Step for Exception
-    @Bean
     BigQueryItemReader<Exceptions> bigQueryExceptionItemReader(){
         BigQueryItemReader<Exceptions> bigQueryItemReader = new BigQueryItemReader<>();
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.exceptions`.*\n" +
@@ -128,7 +124,6 @@ public class ZilliqaBatchConfig {
         return bigQueryItemReader;
     }
 
-    @Bean
     public RepositoryItemWriter<Exceptions> bigQueryExceptionItemWriter(){
         RepositoryItemWriter<Exceptions> writer = new RepositoryItemWriter<>();
         writer.setRepository(exceptionRepository);
@@ -137,7 +132,6 @@ public class ZilliqaBatchConfig {
         return writer;
     }
 
-    @Bean
     public Step step2(){
         return stepBuilderFactory.get("exceptionsToDB-step")
                 .<Exceptions, Exceptions>chunk(10)
@@ -151,7 +145,6 @@ public class ZilliqaBatchConfig {
 
 
     // Step for Exception
-    @Bean
     BigQueryItemReader<Transactions> bigQueryTransactionItemReader(){
         BigQueryItemReader<Transactions> bigQueryItemReader = new BigQueryItemReader<>();
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder("SELECT `public-data-finance.crypto_zilliqa.transactions`.*\n" +
@@ -170,7 +163,6 @@ public class ZilliqaBatchConfig {
         return bigQueryItemReader;
     }
 
-    @Bean
     public RepositoryItemWriter<Transactions> bigQueryTransactionItemWriter(){
         RepositoryItemWriter<Transactions> writer = new RepositoryItemWriter<>();
         writer.setRepository(transactionRepository);
@@ -178,7 +170,6 @@ public class ZilliqaBatchConfig {
         return writer;
     }
 
-    @Bean
     public Step step3(){
         return stepBuilderFactory.get("transactionsToDB-step")
                 .<Transactions, Transactions>chunk(10)
@@ -188,28 +179,24 @@ public class ZilliqaBatchConfig {
                 .build();
     }
 
-    @Bean
-    public Job runJob1(){
+    public Job job1(){
         return jobBuilderFactory.get("blocksToDB")
                 .start(step1())
                 .build();
     }
 
-    @Bean
-    public Job runJob2(){
+    public Job job2(){
         return jobBuilderFactory.get("exceptionsToDB")
                 .start(step2())
                 .build();
     }
 
-    @Bean
-    public Job runJob3(){
+    public Job job3(){
         return jobBuilderFactory.get("transactionsToDB")
                 .start(step3())
                 .build();
     }
 
-    @Bean
     public JobLauncher jobLauncherAsync() throws Exception
     {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
@@ -217,6 +204,24 @@ public class ZilliqaBatchConfig {
         jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
         jobLauncher.afterPropertiesSet();
         return jobLauncher;
+    }
+
+    public void runJob1() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
+        jobLauncherAsync().run(job1(), jobParameters);
+    }
+
+    public void runJob2() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
+        jobLauncherAsync().run(job2(), jobParameters);
+    }
+
+    public void runJob3() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
+        jobLauncherAsync().run(job3(), jobParameters);
     }
 
 }

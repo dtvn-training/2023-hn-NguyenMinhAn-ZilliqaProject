@@ -17,4 +17,6 @@ public interface BlockService {
     List<Blocks> findTop10Blocks();
 
     Blocks getByNumber(int id);
+
+    Blocks update(Blocks blocks);
 }

@@ -14,10 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -114,5 +112,19 @@ public class BlockController {
         model.addAttribute("countException", countException);
         model.addAttribute("block", block);
         return "update-block";
+    }
+
+    @PostMapping("/update-product/{id}")
+    public String processUpdate(@PathVariable("id") Long id,
+                                @ModelAttribute("block") Blocks block,
+                                RedirectAttributes attributes){
+        try{
+            blockService.update(block);
+            attributes.addFlashAttribute("success", "Update was successful");
+        } catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Update was not successful");
+        }
+        return "redirect:/block-results";
     }
 }

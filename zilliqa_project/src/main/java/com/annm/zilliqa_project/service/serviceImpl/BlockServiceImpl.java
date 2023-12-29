@@ -59,6 +59,28 @@ public class BlockServiceImpl implements BlockService {
         return block;
     }
 
+    @Override
+    public Blocks update(Blocks blocks) {
+        Blocks block = blockRepository.getById(blocks.getNumber());
+        block.setNumber(blocks.getNumber());
+        block.setDsBlockNumber(blocks.getDsBlockNumber());
+        block.setTimestamp(blocks.getTimestamp());
+        block.setVersion(blocks.getVersion());
+        block.setGasLimit(blocks.getGasLimit());
+        block.setGasUse(blocks.getGasUse());
+        block.setMbInfoHash(blocks.getMbInfoHash());
+        block.setTxLeaderPubKey(blocks.getTxLeaderPubKey());
+        block.setTxLeaderAddress(blocks.getTxLeaderAddress());
+        block.setNumMicroBlocks(blocks.getNumMicroBlocks());
+        block.setNumTransactions(blocks.getNumTransactions());
+        block.setNumPresentTransactions(blocks.getNumPresentTransactions());
+        block.setRewards(blocks.getRewards());
+        block.setStateDeltaHash(blocks.getStateDeltaHash());
+        block.setPrevBlockHash(blocks.getPrevBlockHash());
+        block.setStateRootHash(blocks.getStateRootHash());
+        return blockRepository.save(block);
+    }
+
     private Page toPage(List<Blocks> list, Pageable pageable){
         if (pageable.getOffset() >= list.size()){
             return Page.empty();
