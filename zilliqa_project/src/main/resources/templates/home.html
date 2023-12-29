@@ -305,6 +305,7 @@
                             <table class="table table-bordered" id="dataTable">
                                 <thead>
                                 <tr>
+                                    <th>Edit</th>
                                     <th>Number</th>
                                     <th>DS Block Number</th>
                                     <th>TimeStamp</th>
@@ -325,6 +326,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>Edit</th>
                                     <th>Number</th>
                                     <th>DS Block Number</th>
                                     <th>TimeStamp</th>
@@ -345,6 +347,12 @@
                                 </tfoot>
                                 <tbody>
                                 <tr th:each="block : ${blocks}">
+                                    <td>
+                                        <a th:href="@{/user/update-block/{id}(id = ${block.number})}" class="btn btn-outline-warning">
+                                            Edit
+                                        </a>
+                                        <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
+                                    </td>
                                     <td th:text="${block.number}"></td>
                                     <td th:text="${block.dsBlockNumber}"></td>
                                     <td th:text="${block.timestamp}"></td>

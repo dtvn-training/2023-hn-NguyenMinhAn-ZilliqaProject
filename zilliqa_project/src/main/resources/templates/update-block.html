@@ -196,16 +196,13 @@
                 </div>
 
                 <div class="container-fluid" style="margin-bottom: 25px;">
-                    <form class="form-horizontal" th:action="@{/update-block/{id} (id = ${block.number})}" method="post" enctype="multipart/form-data" th:object = "${block}">
+                    <form class="form-horizontal" th:action="@{/user/update-block/{id} (id = ${block.number})}" method="post" th:object = "${block}">
                         <fieldset>
-                            <!-- Form Name -->
-                            <legend>Update Block</legend>
-
                             <!-- Text input-->
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="block_number">Block Number</label>
+                                <label class="col-md-4 control-label" for="number">Block Number</label>
                                 <div class="col-md-4">
-                                    <input id="block_number" th:field = "*{number}" name="block_number" class="form-control input-md" required="" type="text">
+                                    <input id="number" th:field = "*{number}" name="number" class="form-control input-md" required="" type="text" readonly>
                                 </div>
                             </div>
 
@@ -214,110 +211,108 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="ds_block_number">DsBlock Number</label>
                                 <div class="col-md-4">
-                                    <input id="ds_block_number" th:field = "*{description}" name="ds_block_number" class="form-control input-md" required="" type="text">
+                                    <input id="ds_block_number" th:field = "*{dsBlockNumber}" name="ds_block_number" class="form-control input-md" required="" type="text">
 
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="timestamp">Block Number</label>
+                                <label class="col-md-4 control-label" for="timestamp">Timestamp</label>
                                 <div class="col-md-4">
                                     <input id="timestamp" th:field = "*{timestamp}" name="timestamp" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="version">Block Number</label>
+                                <label class="col-md-4 control-label" for="version">Version</label>
                                 <div class="col-md-4">
                                     <input id="version" th:field = "*{version}" name="version" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="gas_limit">Block Number</label>
+                                <label class="col-md-4 control-label" for="gas_limit">Gas Limit</label>
                                 <div class="col-md-4">
                                     <input id="gas_limit" th:field = "*{gasLimit}" name="gas_limit" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="gas_use">Block Number</label>
+                                <label class="col-md-4 control-label" for="gas_use">Gas Use</label>
                                 <div class="col-md-4">
                                     <input id="gas_use" th:field = "*{gasUse}" name="gas_use" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="mb_info_hash">Block Number</label>
+                                <label class="col-md-4 control-label" for="mb_info_hash">MB Info Hash</label>
                                 <div class="col-md-4">
                                     <input id="mb_info_hash" th:field = "*{mbInfoHash}" name="mb_info_hash" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="tx_leader_pub_key">Block Number</label>
-                                <div class="col-md-4">
-                                    <input id="tx_leader_pub_key" th:field = "*{txLeaderPubKey}" name="mb_info_hash" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="tx_leader_address">Block Number</label>
-                                <div class="col-md-4">
-                                    <input id="tx_leader_address" th:field = "*{txLeaderAddress}" name="tx_leader_address" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="num_micro_blocks">Block Number</label>
+                                <label class="col-md-4 control-label" for="num_micro_blocks">Num Micro Block</label>
                                 <div class="col-md-4">
                                     <input id="num_micro_blocks" th:field = "*{numMicroBlocks}" name="num_micro_blocks" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="num_transactions">Block Number</label>
-                                <div class="col-md-4">
-                                    <input id="num_transactions" th:field = "*{numTransactions}" name="num_transactions" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="num_present_transactions">Block Number</label>
+                                <label class="col-md-4 control-label" for="num_present_transactions">Num Present Transactions</label>
                                 <div class="col-md-4">
                                     <input id="num_present_transactions" th:field = "*{numPresentTransactions}" name="num_present_transactions" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="rewards">Block Number</label>
+                                <label class="col-md-4 control-label" for="num_transactions">Num Transactions</label>
                                 <div class="col-md-4">
-                                    <input id="rewards" th:field = "*{rewards}" name="rewards" class="form-control input-md" required="" type="text">
+                                    <input id="num_transactions" th:field = "*{numTransactions}" name="num_transactions" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="state_delta_hash">Block Number</label>
-                                <div class="col-md-4">
-                                    <input id="state_delta_hash" th:field = "*{stateDeltaHash}" name="state_delta_hash" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="prev_block_hash">Block Number</label>
+                                <label class="col-md-4 control-label" for="prev_block_hash">Prev Block Hash</label>
                                 <div class="col-md-4">
                                     <input id="prev_block_hash" th:field = "*{prevBlockHash}" name="prev_block_hash" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="state_root_hash">Block Number</label>
+                                <label class="col-md-4 control-label" for="rewards">Rewards</label>
+                                <div class="col-md-4">
+                                    <input id="rewards" th:field = "*{rewards}" name="rewards" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="state_delta_hash">State Delta Hash</label>
+                                <div class="col-md-4">
+                                    <input id="state_delta_hash" th:field = "*{stateDeltaHash}" name="state_delta_hash" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="state_root_hash">State Root Hash</label>
                                 <div class="col-md-4">
                                     <input id="state_root_hash" th:field = "*{stateRootHash}" name="state_root_hash" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="tx_leader_pub_key">Tx Leader PubKey</label>
+                                <div class="col-md-4">
+                                    <input id="tx_leader_pub_key" th:field = "*{txLeaderPubKey}" name="mb_info_hash" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="tx_leader_address">Tx Leader Address</label>
+                                <div class="col-md-4">
+                                    <input id="tx_leader_address" th:field = "*{txLeaderAddress}" name="tx_leader_address" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
                         </fieldset>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>

@@ -114,8 +114,8 @@ public class BlockController {
         return "update-block";
     }
 
-    @PostMapping("/update-product/{id}")
-    public String processUpdate(@PathVariable("id") Long id,
+    @PostMapping("/update-block/{id}")
+    public String processUpdate(@PathVariable("id") int id,
                                 @ModelAttribute("block") Blocks block,
                                 RedirectAttributes attributes){
         try{
@@ -125,6 +125,6 @@ public class BlockController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Update was not successful");
         }
-        return "redirect:/block-results";
+        return "redirect:/user/block-detail/{id}";
     }
 }
