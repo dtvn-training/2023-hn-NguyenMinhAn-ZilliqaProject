@@ -1,6 +1,7 @@
 package com.annm.zilliqa_project.service;
 
 import com.annm.zilliqa_project.entity.Blocks;
+import com.annm.zilliqa_project.entity.Exceptions;
 import com.annm.zilliqa_project.entity.Transactions;
 import org.springframework.data.domain.Page;
 
@@ -18,4 +19,8 @@ public interface TransactionService {
     public Transactions getByNumber(int id);
 
     Transactions getById(int id);
+
+    Transactions update(Transactions Transactions);
+
+    Transactions getByTransactionId(String id);
 }

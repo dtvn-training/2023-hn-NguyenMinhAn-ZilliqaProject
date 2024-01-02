@@ -11,4 +11,8 @@ public interface ExceptionService {
     List<Exceptions> getByBlockNumber(int id);
 
     List<Exceptions> getByTransactionId(String id);
+    Exceptions update(Exceptions exceptions);
+
+    Exceptions getById(int id);
+
 }

@@ -12,10 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -94,5 +92,65 @@ public class TransactionController {
         model.addAttribute("transactions", transactions);
         model.addAttribute("exceptions", exceptions);
         return "transaction-details";
+    }
+
+    @GetMapping("/update-transaction-b/{id}")
+    public String updateTransactionFormB(@PathVariable("id") int id, Model model, Principal principal){
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        Transactions transaction = transactionService.getById(id);
+        Long countBlock = blockService.count();
+        Long countTransaction = transactionService.count();
+        Long countException = exceptionService.count();
+        model.addAttribute("countBlock", countBlock);
+        model.addAttribute("countTransaction", countTransaction);
+        model.addAttribute("countException", countException);
+        model.addAttribute("transaction", transaction);
+        return "update-transaction-b";
+    }
+
+    @GetMapping("/update-transaction-t/{id}")
+    public String updateTransactionFormT(@PathVariable("id") int id, Model model, Principal principal){
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        Transactions transaction = transactionService.getById(id);
+        Long countBlock = blockService.count();
+        Long countTransaction = transactionService.count();
+        Long countException = exceptionService.count();
+        model.addAttribute("countBlock", countBlock);
+        model.addAttribute("countTransaction", countTransaction);
+        model.addAttribute("countException", countException);
+        model.addAttribute("transaction", transaction);
+        return "update-transaction-t";
+    }
+
+    @PostMapping("/update-transaction-b/{id}")
+    public String processUpdateB(@PathVariable("id") int id,
+                                @ModelAttribute("transaction") Transactions transaction,
+                                RedirectAttributes attributes){
+        try{
+            transactionService.update(transaction);
+            attributes.addFlashAttribute("success", "Update was successful");
+        } catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Update was not successful");
+        }
+        return "redirect:/user/block-detail/{id}";
+    }
+
+    @PostMapping("/update-transaction-t/{id}")
+    public String processUpdateT(@PathVariable("id") int id,
+                                @ModelAttribute("block") Transactions transaction,
+                                RedirectAttributes attributes){
+        try{
+            transactionService.update(transaction);
+            attributes.addFlashAttribute("success", "Update was successful");
+        } catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Update was not successful");
+        }
+        return "redirect:/user/transaction-detail/{id}";
     }
 }

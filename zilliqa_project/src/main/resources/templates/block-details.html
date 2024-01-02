@@ -353,7 +353,7 @@
                             <table class="table table-bordered" style="max-width: 100%;">
                                 <thead>
                                 <tr>
-                                    <th>Edit</th>
+                                    <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                     <th>Number</th>
                                     <th>DS Block Number</th>
                                     <th>TimeStamp</th>
@@ -374,7 +374,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Edit</th>
+                                    <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                     <th>Number</th>
                                     <th>DS Block Number</th>
                                     <th>TimeStamp</th>
@@ -395,7 +395,7 @@
                                 </tfoot>
                                 <tbody>
                                 <tr th:each="block : ${blocks}">
-                                    <td>
+                                    <td sec:authorize="hasAuthority('ADMIN')">
                                         <a th:href="@{/user/update-block/{id}(id = ${block.number})}" class="btn btn-outline-warning">
                                             Edit
                                         </a>
@@ -445,6 +445,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -462,6 +463,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -479,6 +481,12 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="transaction : ${transactions}">
+                                        <td sec:authorize="hasAuthority('ADMIN')">
+                                            <a th:href="@{/user/update-transaction-b/{id}(id = ${transaction.t_id})}" class="btn btn-outline-warning">
+                                                Edit
+                                            </a>
+                                            <input type = "hidden" th:value = "${transaction.t_id}" name = "id" class = "form-control">
+                                        </td>
                                         <td th:text="${transaction.blocks.number}"></td>
                                         <td th:text="${transaction.t_id}"></td>
                                         <td th:text="${transaction.blockTimestamp}"></td>
@@ -521,6 +529,7 @@
                                 <table class="table table-bordered" id="dataTable">
                                     <thead>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -532,6 +541,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -543,6 +553,12 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="exception : ${exceptions}">
+                                        <td sec:authorize="hasAuthority('ADMIN')">
+                                            <a th:href="@{/user/update-exception-b/{id}(id = ${exception.e_id})}" class="btn btn-outline-warning">
+                                                Edit
+                                            </a>
+                                            <input type = "hidden" th:value = "${exception.e_id}" name = "id" class = "form-control">
+                                        </td>
                                         <td th:text="${exception.blocks.number}"></td>
                                         <td th:text="${exception.e_id}"></td>
                                         <td th:text="${exception.blockTimestamp}"></td>
