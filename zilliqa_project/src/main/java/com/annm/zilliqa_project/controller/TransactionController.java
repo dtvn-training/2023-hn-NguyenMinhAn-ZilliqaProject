@@ -9,6 +9,7 @@ import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -35,6 +38,9 @@ public class TransactionController {
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RedisTemplate template;
 
     @GetMapping("/transaction")
     public String transaction(Model model, Principal principal){
@@ -79,6 +85,8 @@ public class TransactionController {
         if (principal == null) {
             return "redirect:/login";
         }
+        Set<Integer> redisTransactions = template.opsForSet().members("transactions");
+        Set<Integer> redisExceptions = template.opsForSet().members("exceptions");
         Transactions transactions = transactionService.getById(id);
         String transactionId = transactions.getTransactionId();
         List<Exceptions> exceptions = exceptionService.getByTransactionId(transactionId);
@@ -91,6 +99,8 @@ public class TransactionController {
         model.addAttribute("title", "Transaction Details");
         model.addAttribute("transactions", transactions);
         model.addAttribute("exceptions", exceptions);
+        model.addAttribute("redisTransactions", redisTransactions);
+        model.addAttribute("redisExceptions", redisExceptions);
         return "transaction-details";
     }
 
@@ -132,6 +142,17 @@ public class TransactionController {
                                 RedirectAttributes attributes){
         try{
             transactionService.update(transaction);
+
+            boolean exists = template.hasKey("transactions");
+
+            if (exists) {
+                template.opsForSet().add("transactions", transaction.getT_id());
+            } else {
+                Set<Integer> transactions = new HashSet<>();
+                transactions.add(transaction.getT_id());
+                template.opsForSet().add("transactions", transactions.toArray(new Integer[0]));
+            }
+
             attributes.addFlashAttribute("success", "Update was successful");
         } catch (Exception e){
             e.printStackTrace();
@@ -142,10 +163,19 @@ public class TransactionController {
 
     @PostMapping("/update-transaction-t/{id}")
     public String processUpdateT(@PathVariable("id") int id,
-                                @ModelAttribute("block") Transactions transaction,
+                                @ModelAttribute("transaction") Transactions transaction,
                                 RedirectAttributes attributes){
         try{
             transactionService.update(transaction);
+            boolean exists = template.hasKey("transactions");
+
+            if (exists) {
+                template.opsForSet().add("transactions", transaction.getT_id());
+            } else {
+                Set<Integer> transactions = new HashSet<>();
+                transactions.add(transaction.getT_id());
+                template.opsForSet().add("transactions", transactions.toArray(new Integer[0]));
+            }
             attributes.addFlashAttribute("success", "Update was successful");
         } catch (Exception e){
             e.printStackTrace();

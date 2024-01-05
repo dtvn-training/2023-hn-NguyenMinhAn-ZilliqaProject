@@ -11,6 +11,8 @@ import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -38,6 +42,9 @@ public class BlockController {
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RedisTemplate template;
 
     @GetMapping("/block")
     public String block(Model model, Principal principal){
@@ -82,6 +89,9 @@ public class BlockController {
         if (principal == null) {
             return "redirect:/login";
         }
+        Set<Integer> redisBlocks = template.opsForSet().members("blocks");
+        Set<Integer> redisTransactions = template.opsForSet().members("transactions");
+        Set<Integer> redisExceptions = template.opsForSet().members("exceptions");
         Blocks block = blockService.getByNumber(id);
         List<Transactions> transactions = transactionService.getByBlockNumber(id);
         List<Exceptions> exceptions = exceptionService.getByBlockNumber(id);
@@ -95,6 +105,9 @@ public class BlockController {
         model.addAttribute("blocks", block);
         model.addAttribute("transactions", transactions);
         model.addAttribute("exceptions", exceptions);
+        model.addAttribute("redisBlocks", redisBlocks);
+        model.addAttribute("redisTransactions", redisTransactions);
+        model.addAttribute("redisExceptions", redisExceptions);
         return "block-details";
     }
 
@@ -120,6 +133,15 @@ public class BlockController {
                                 RedirectAttributes attributes){
         try{
             blockService.update(block);
+            boolean exists = template.hasKey("blocks");
+
+            if (exists) {
+                template.opsForSet().add("blocks", id);
+            } else {
+                Set<Integer> blocks = new HashSet<>();
+                blocks.add(id);
+                template.opsForSet().add("blocks", blocks.toArray(new Integer[0]));
+            }
             attributes.addFlashAttribute("success", "Update was successful");
         } catch (Exception e){
             e.printStackTrace();

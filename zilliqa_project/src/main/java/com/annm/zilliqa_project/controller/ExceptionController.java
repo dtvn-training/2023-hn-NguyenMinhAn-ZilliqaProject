@@ -8,6 +8,7 @@ import com.annm.zilliqa_project.service.serviceImpl.ExceptionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -33,6 +36,10 @@ public class ExceptionController {
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RedisTemplate template;
+
 
     @GetMapping("/update-exception-b/{id}")
     public String updateTransactionFormB(@PathVariable("id") int id, Model model, Principal principal){
@@ -74,6 +81,17 @@ public class ExceptionController {
                                  RedirectAttributes attributes){
         try{
             exceptionService.update(exception);
+
+            boolean exists = template.hasKey("exceptions");
+
+            if (exists) {
+                template.opsForSet().add("exceptions", exception.getE_id());
+            } else {
+                Set<Integer> exceptions = new HashSet<>();
+                exceptions.add(exception.getE_id());
+                template.opsForSet().add("exceptions", exceptions.toArray(new Integer[0]));
+            }
+
             attributes.addFlashAttribute("success", "Update was successful");
         } catch (Exception e){
             e.printStackTrace();
@@ -89,6 +107,17 @@ public class ExceptionController {
                                  RedirectAttributes attributes){
         try{
             exceptionService.update(exception);
+
+            boolean exists = template.hasKey("exceptions");
+
+            if (exists) {
+                template.opsForSet().add("exceptions", exception.getE_id());
+            } else {
+                Set<Integer> exceptions = new HashSet<>();
+                exceptions.add(exception.getE_id());
+                template.opsForSet().add("exceptions", exceptions.toArray(new Integer[0]));
+            }
+
             attributes.addFlashAttribute("success", "Update was successful");
         } catch (Exception e){
             e.printStackTrace();

@@ -344,9 +344,15 @@
                                 </tfoot>
                                 <tbody>
                                 <tr th:each="block : ${blocks}">
-                                    <td sec:authorize="hasAuthority('ADMIN')">
+                                    <td sec:authorize="hasAuthority('ADMIN')" th:if="${!#lists.contains(redisBlocks, block.number)}">
                                         <a th:href="@{/user/update-block/{id}(id = ${block.number})}" class="btn btn-outline-warning">
                                             Edit
+                                        </a>
+                                        <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
+                                    </td>
+                                    <td sec:authorize="hasAuthority('ADMIN')" th:if="${#lists.contains(redisBlocks, block.number)}">
+                                        <a class="btn btn-outline-secondary">
+                                            View only
                                         </a>
                                         <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
                                     </td>

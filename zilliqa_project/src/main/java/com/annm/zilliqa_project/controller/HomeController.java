@@ -10,6 +10,7 @@ import com.annm.zilliqa_project.service.serviceImpl.TransactionServiceImpl;
 import com.annm.zilliqa_project.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.Set;
 
 
 @RequestMapping("/user")
@@ -41,6 +44,9 @@ public class HomeController {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RedisTemplate template;
+
     @GetMapping("/home")
     public String home(Model model, Principal principal){
         if (principal == null) {
@@ -58,6 +64,7 @@ public class HomeController {
 //        model.addAttribute("countTransaction", countTransaction);
 //        model.addAttribute("countException", countException);
         int pageNo = 0;
+        Set<Integer> redisBlocks = template.opsForSet().members("blocks");
         Page<Blocks> blocks = blockService.getAllBlocks(pageNo);
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
@@ -70,6 +77,7 @@ public class HomeController {
         model.addAttribute("totalPages", blocks.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("blocks", blocks);
+        model.addAttribute("redisBlocks", redisBlocks);
         return "home";
     }
 
@@ -78,6 +86,7 @@ public class HomeController {
         if (principal == null) {
             return "redirect:/login";
         }
+        Set<Integer> redisBlocks = template.opsForSet().members("blocks");
         Page<Blocks> blocks = blockService.getAllBlocks(pageNo);
         Long countBlock = blockService.count();
         Long countTransaction = transactionService.count();
@@ -90,6 +99,7 @@ public class HomeController {
         model.addAttribute("totalPages", blocks.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("blocks", blocks);
+        model.addAttribute("redisBlocks", redisBlocks);
         return "home";
     }
 }
