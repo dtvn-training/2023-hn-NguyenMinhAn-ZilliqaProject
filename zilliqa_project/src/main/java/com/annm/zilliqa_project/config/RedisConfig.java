@@ -48,8 +48,8 @@ public class RedisConfig {
         return template;
     }
 
-    @Scheduled(cron = "0 * * ? * *")
-    public void scheduleTaskWithCronExpression() {
-        redisTemplate().getConnectionFactory().getConnection().flushAll();
-    }
+//    @Scheduled(cron = "0 * * ? * *")
+//    public void scheduleTaskWithCronExpression() {
+//        redisTemplate().getConnectionFactory().getConnection().flushAll();
+//    }
 }
