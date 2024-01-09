@@ -31,4 +31,21 @@ public class ExceptionServiceImpl implements ExceptionService {
         List<Exceptions> exceptions = exceptionRepository.findByTransactionId(id);
         return exceptions;
     }
+
+    @Override
+    public Exceptions update(Exceptions exceptions) {
+        Exceptions exception = exceptionRepository.getById(exceptions.getE_id());
+        exception.setBlockTimestamp(exceptions.getBlockTimestamp());
+        exception.setIndex(exceptions.getIndex());
+        exception.setLine(exceptions.getLine());
+        exception.setMessage(exceptions.getMessage());
+        exception.setTransactionId(exceptions.getTransactionId());
+        return exceptionRepository.save(exception);
+    }
+
+    @Override
+    public Exceptions getById(int id) {
+        Exceptions exception = exceptionRepository.getById(id);
+        return exception;
+    }
 }

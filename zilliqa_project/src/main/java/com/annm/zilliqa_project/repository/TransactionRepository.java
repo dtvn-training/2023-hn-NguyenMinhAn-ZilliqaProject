@@ -1,6 +1,7 @@
 package com.annm.zilliqa_project.repository;
 
 import com.annm.zilliqa_project.entity.Blocks;
+import com.annm.zilliqa_project.entity.Exceptions;
 import com.annm.zilliqa_project.entity.Transactions;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface TransactionRepository extends JpaRepository<Transactions, Integ
     List<Transactions> findAllByKeyWord(String keyword);
 
     Transactions findById(int id);
+
+    Transactions findByTransactionId(String id);
 }

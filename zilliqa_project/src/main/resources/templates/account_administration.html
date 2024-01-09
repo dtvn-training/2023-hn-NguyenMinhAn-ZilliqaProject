@@ -84,7 +84,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Option</h6>
-                        <a class="collapse-item" href="utilities-color.html" th:href="@{/user/account}">Customer Accounts</a>
+                        <a class="collapse-item" href="utilities-color.html">Customer Accounts</a>
                     </div>
                 </div>
             </li>
@@ -181,12 +181,12 @@
                 </nav>
                 <!-- End of Topbar -->
             </div>
-                <!-- Begin Page Content -->
+            <div>    <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Home</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Account Administration</h1>
                         <button id="runBatchButton" data-toggle="modal" data-target="#exampleModal" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </button>
                     </div>
@@ -230,148 +230,84 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Blocks</div>
-                                            <div th:text="${countBlock}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                            <i class="fa-sharp fa-solid fa-cube fa-2x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Transaction</div>
-                                            <div th:text="${countTransaction}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                        <i class="fa-solid fa-money-bill fa-2x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Exceptions
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div th:text="${countException}" class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                            <i class="fa-solid fa-circle-exclamation fa-2x"></i>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div >
-                    <p th:if = "${size==0}">Không có sản phẩm nào</p>
+                    <p th:if = "${size==0}">Không có account nào</p>
                 </div>
                 <div class="card shadow mb-4" th:if="${size > 0}">
+                    <div class="card-body" width="100%">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Account Management</h6>
                     </div>
                     <div class="card-body" width="100%">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable">
                                 <thead>
                                 <tr>
-                                    <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
-                                    <th>Number</th>
-                                    <th>DS Block Number</th>
-                                    <th>TimeStamp</th>
-                                    <th>Version</th>
-                                    <th>Gas Limit</th>
-                                    <th>Gas Use</th>
-                                    <th>MB Info Hash</th>
-                                    <th>Num Micro Blocks</th>
-                                    <th>Num Present Transactions</th>
-                                    <th>Num Transactions</th>
-                                    <th>Prev Block Hash</th>
-                                    <th>Rewards</th>
-                                    <th>State Delta Hash</th>
-                                    <th>State Root Hash</th>
-                                    <th>Tx Leader PubKey</th>
-                                    <th>Tx Leader Address</th>
+                                    <th>Edit</th>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
-                                    <th>Number</th>
-                                    <th>DS Block Number</th>
-                                    <th>TimeStamp</th>
-                                    <th>Version</th>
-                                    <th>Gas Limit</th>
-                                    <th>Gas Use</th>
-                                    <th>MB Info Hash</th>
-                                    <th>Num Micro Blocks</th>
-                                    <th>Num Present Transactions</th>
-                                    <th>Num Transactions</th>
-                                    <th>Prev Block Hash</th>
-                                    <th>Rewards</th>
-                                    <th>State Delta Hash</th>
-                                    <th>State Root Hash</th>
-                                    <th>Tx Leader PubKey</th>
-                                    <th>Tx Leader Address</th>
+                                    <th>Edit</th>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr th:each="block : ${blocks}">
-                                    <td sec:authorize="hasAuthority('ADMIN')" th:if="${!#lists.contains(redisBlocks, block.number)}">
-                                        <a th:href="@{/user/update-block/{id}(id = ${block.number})}" class="btn btn-outline-warning">
+                                <tr th:each="user : ${users}">
+                                    <td>
+                                        <a th:href="@{/user/update-account/{id}(id = ${user.id})}" class="btn btn-outline-warning">
                                             Edit
                                         </a>
-                                        <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
+                                        <input type = "hidden" th:value = "${user.id}" name = "id" class = "form-control">
                                     </td>
-                                    <td sec:authorize="hasAuthority('ADMIN')" th:if="${#lists.contains(redisBlocks, block.number)}">
-                                        <a class="btn btn-outline-secondary">
-                                            View only
-                                        </a>
-                                        <input type = "hidden" th:value = "${block.number}" name = "id" class = "form-control">
-                                    </td>
-                                    <td th:text="${block.number}"></td>
-                                    <td th:text="${block.dsBlockNumber}"></td>
-                                    <td th:text="${block.timestamp}"></td>
-                                    <td th:text="${block.version}"></td>
-                                    <td th:text="${block.gasLimit}"></td>
-                                    <td th:text="${block.gasUse}"></td>
-                                    <td th:text="${block.mbInfoHash}"></td>
-                                    <td th:text="${block.numMicroBlocks}"></td>
-                                    <td th:text="${block.numPresentTransactions}"></td>
-                                    <td th:text="${block.numTransactions}"></td>
-                                    <td th:text="${block.prevBlockHash}"></td>
-                                    <td th:text="${block.rewards}"></td>
-                                    <td th:text="${block.stateDeltaHash}"></td>
-                                    <td th:text="${block.stateRootHash}"></td>
-                                    <td th:text="${block.txLeaderPubKey}"></td>
-                                    <td th:text="${block.txLeaderAddress}"></td>
+
+<!--                                    <td>-->
+<!--                                        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#confirmDeleteModal">-->
+<!--                                            Delete-->
+<!--                                        </button>-->
+<!--                                    </td>-->
+
+<!--                                    &lt;!&ndash; Modal &ndash;&gt;-->
+<!--                                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">-->
+<!--                                        <div class="modal-dialog" role="document">-->
+<!--                                            <div class="modal-content">-->
+<!--                                                <div class="modal-header">-->
+<!--                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>-->
+<!--                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                                        <span aria-hidden="true">&times;</span>-->
+<!--                                                    </button>-->
+<!--                                                </div>-->
+<!--                                                <div class="modal-body">-->
+<!--                                                    Are you sure you want to delete this account?-->
+<!--                                                </div>-->
+<!--                                                <div class="modal-footer">-->
+<!--                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>-->
+<!--&lt;!&ndash;                                                    <a th:action="@{/user/delete-account/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>&ndash;&gt;-->
+<!--                                                    <form th:action="@{/user/delete-account/{id}(id=${user.id})}" method="post">-->
+<!--                                                        <input type="hidden" name="_method" value="delete" />-->
+<!--                                                        <button class="btn btn-danger" type="submit">Delete</button>-->
+<!--                                                    </form>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.password}"></td>
+                                    <td th:text="${user.firstName}"></td>
+                                    <td th:text="${user.lastName}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -429,16 +365,16 @@
                             <ul class="pagination">
 
                                 <li th:if="${currentPage != 0}" class="page-item">
-                                    <a th:href="@{'/user/home/0'}" class="page-link">First</a>
+                                    <a th:href="@{'/user/account/0'}" class="page-link">First</a>
                                 </li>
 
                                 <li th:if= "${currentPage != 0}" class="page-item ">
-                                    <a th:href = "@{'/user/home/' + ${currentPage - 1}}" class="page-link">Previous</a>
+                                    <a th:href = "@{'/user/account/' + ${currentPage - 1}}" class="page-link">Previous</a>
                                 </li >
 
                                 <th:block th:if="${totalPages <= 10}">
                                     <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                        <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">
+                                        <a th:href = "@{'/user/account/' + ${i - 1}}" class="page-link" href="#">
                                              <span th:text = "${i}">
                                              </span></a></li>
                                 </th:block>
@@ -446,48 +382,49 @@
                                 <th:block th:if="${totalPages > 10}">
                                     <th:block th:if="${currentPage < 5 || currentPage >= totalPages - 4}">
                                         <li th:each = "i : ${#numbers.sequence(1, 5)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                            <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">
+                                            <a th:href = "@{'/user/account/' + ${i - 1}}" class="page-link" href="#">
                                                 <span th:text = "${i}"></span>
                                             </a>
                                         </li>
 
-                                        <a th:href = "@{'/user/home/5'}" class="page-link" href="#">
+                                        <a th:href = "@{'/user/account/5'}" class="page-link" href="#">
                                             <span th:text = "..."></span>
                                         </a>
 
                                         <li th:each = "i : ${#numbers.sequence(totalPages - 4, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                            <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">
+                                            <a th:href = "@{'/user/account/' + ${i - 1}}" class="page-link" href="#">
                                                 <span th:text = "${i}"></span>
                                             </a>
                                         </li>
                                     </th:block>
 
                                     <th:block th:if="${currentPage >= 5 && currentPage < totalPages - 4}">
-                                        <a th:href = "@{'/user/home/' + ${currentPage - 4}}" class="page-link" href="#">
+                                        <a th:href = "@{'/user/account/' + ${currentPage - 4}}" class="page-link" href="#">
                                             <span th:text = "..."></span>
                                         </a>
 
                                         <li th:each = "i : ${#numbers.sequence(currentPage - 2, currentPage + 4)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                            <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">
+                                            <a th:href = "@{'/user/account/' + ${i - 1}}" class="page-link" href="#">
                                                 <span th:text = "${i}"></span>
                                             </a>
                                         </li>
 
-                                        <a th:href = "@{'/user/home/' + ${currentPage + 4}}" class="page-link" href="#">
+                                        <a th:href = "@{'/user/account/' + ${currentPage + 4}}" class="page-link" href="#">
                                             <span th:text = "..."></span>
                                         </a>
                                     </th:block>
                                 </th:block>
                                 <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
-                                    <a th:href = "@{'/user/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
+                                    <a th:href = "@{'/user/account/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
                                 </li>
 
                                 <li th:if="${currentPage != totalPages - 1}" class="page-item">
-                                    <a th:href="@{'/user/home/' + ${totalPages - 1}}" class="page-link">Last</a>
+                                    <a th:href="@{'/user/account/' + ${totalPages - 1}}" class="page-link">Last</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+                </div>
                 </div>
             <!-- End of Footer --->
         </div>
@@ -543,7 +480,7 @@
               var page = document.getElementById('pageInput').value;
 
               // Chuyển đến trang đã nhập
-              window.location.href = '/user/home/' + (page - 1);
+              window.location.href = '/user/account/' + (page - 1);
             });
         </script>
 

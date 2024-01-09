@@ -1,6 +1,7 @@
 package com.annm.zilliqa_project.service.serviceImpl;
 
 import com.annm.zilliqa_project.entity.Blocks;
+import com.annm.zilliqa_project.entity.Exceptions;
 import com.annm.zilliqa_project.entity.Transactions;
 import com.annm.zilliqa_project.repository.TransactionRepository;
 import com.annm.zilliqa_project.service.TransactionService;
@@ -39,6 +40,30 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transactions getById(int id) {
         Transactions transactions = transactionRepository.findById(id);
+        return transactions;
+    }
+
+    @Override
+    public Transactions update(Transactions transactions) {
+        Transactions transaction = transactionRepository.getById(transactions.getT_id());
+        transaction.setT_id(transactions.getT_id());
+        transaction.setBlockTimestamp(transactions.getBlockTimestamp());
+        transaction.setAmount(transactions.getAmount());
+        transaction.setCumulativeGas(transactions.getCumulativeGas());
+        transaction.setData(transactions.getData());
+        transaction.setSender(transactions.getSender());
+        transaction.setToAddress(transactions.getToAddress());
+        transaction.setSenderPubKey(transactions.getSenderPubKey());
+        transaction.setSignature(transactions.getSignature());
+        transaction.setSuccess(transactions.isSuccess());
+        transaction.setTransactionId(transactions.getTransactionId());
+        transaction.setVersion(transactions.getVersion());
+        return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public Transactions getByTransactionId(String id) {
+        Transactions transactions = transactionRepository.findByTransactionId(id);
         return transactions;
     }
 

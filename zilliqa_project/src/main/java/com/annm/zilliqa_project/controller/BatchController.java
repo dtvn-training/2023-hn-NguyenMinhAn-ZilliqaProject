@@ -4,6 +4,7 @@ import com.annm.zilliqa_project.config.ZilliqaBatchConfig;
 import com.annm.zilliqa_project.repository.BlockRepository;
 import com.annm.zilliqa_project.repository.ExceptionRepository;
 import com.annm.zilliqa_project.repository.TransactionRepository;
+import com.annm.zilliqa_project.service.RedisService;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.JobLocator;
@@ -43,6 +44,9 @@ public class BatchController {
     @Autowired
     BlockRepository blockRepository;
 
+    @Autowired
+    RedisService redisService;
+
 //    @Autowired
 //    @Qualifier("runJob1")
 //    private Job runJob1;
@@ -81,4 +85,10 @@ public class BatchController {
         zilliqaBatchConfig.runJob3();
         return "redirect:/home";
     }
+
+//    @GetMapping("/delete-cache")
+//    public String delete() throws Exception {
+//        redisService.deleteAllData();
+//        return "redirect:/user/home";
+//    }
 }

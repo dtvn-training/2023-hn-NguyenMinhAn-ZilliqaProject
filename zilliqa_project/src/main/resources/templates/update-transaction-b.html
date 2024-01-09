@@ -100,7 +100,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div>
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -184,10 +184,9 @@
             </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Blocks Finding</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Update Transaction</h1>
                         <button id="runBatchButton" data-toggle="modal" data-target="#exampleModal" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" sec:authorize="hasAuthority('ADMIN')"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Update Data From BigQuery </button>
                     </div>
@@ -231,203 +230,108 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Blocks</div>
-                                            <div th:text="${countBlock}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                            <i class="fa-sharp fa-solid fa-cube fa-2x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Transaction</div>
-                                            <div th:text="${countTransaction}" class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                        <i class="fa-solid fa-money-bill fa-2x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Exceptions
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div th:text="${countException}" class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                            <i class="fa-solid fa-circle-exclamation fa-2x"></i>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
+
                 <div class="container-fluid" style="margin-bottom: 25px;">
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <!--                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">-->
-                    <!--                            <i class="fa fa-bars"></i>-->
-                    <!--                        </button>-->
-
-                    <!-- Topbar Search -->
-                    <form th:action="@{/user/search-blocks/0}" method="get" class="text-center">
-                        <div class="input-group w-50">
-                            <input type="text" name="keyword" class="form-control bg-gradient-light border-0 small" placeholder="Search for..."
-                                   aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                    <form class="form-horizontal" th:action="@{/user/update-transaction-b/{id} (id = ${transaction.blocks.number})}" method="post" th:object = "${transaction}">
+                        <fieldset>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="block_number">Block Number</label>
+                                <div class="col-md-4">
+                                    <input id="block_number" th:field = "*{blocks.number}" name="number" class="form-control input-md" required="" type="text" readonly>
+                                </div>
                             </div>
-                        </div>
+
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="t_id">ID</label>
+                                <div class="col-md-4">
+                                    <input id="t_id" th:field = "*{t_id}" name="t_id" class="form-control input-md" required="" type="text" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="block_timestamp">Timestamp</label>
+                                <div class="col-md-4">
+                                    <input id="block_timestamp" th:field = "*{blockTimestamp}" name="block_timestamp" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="amount">Amount</label>
+                                <div class="col-md-4">
+                                    <input id="amount" th:field = "*{amount}" name="amount" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cumulative_gas">Cumulative Gas</label>
+                                <div class="col-md-4">
+                                    <input id="cumulative_gas" th:field = "*{cumulativeGas}" name="cumulative_gas" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="data">Data</label>
+                                <div class="col-md-4">
+                                    <input id="data" th:field = "*{data}" name="data" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="sender">Sender</label>
+                                <div class="col-md-4">
+                                    <input id="sender" th:field = "*{sender}" name="sender" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="to_addr">To Address</label>
+                                <div class="col-md-4">
+                                    <input id="to_addr" th:field = "*{toAddress}" name="to_addr" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="sender_pub_key">Sender PubKey</label>
+                                <div class="col-md-4">
+                                    <input id="sender_pub_key" th:field = "*{senderPubKey}" name="sender_pub_key" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="signature">Signature</label>
+                                <div class="col-md-4">
+                                    <input id="signature" th:field = "*{signature}" name="signature" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="success">Success</label>
+                                <div class="col-md-4">
+                                    <input id="success" th:field = "*{success}" name="success" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="transaction_id">Transaction Id</label>
+                                <div class="col-md-4">
+                                    <input id="transaction_id" th:field = "*{transactionId}" name="transaction_id" class="form-control input-md" required="" type="text" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="version">Version</label>
+                                <div class="col-md-4">
+                                    <input id="version" th:field = "*{version}" name="version" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </form>
-
-                    <!-- Topbar Navbar -->
-                    <!--                        <ul class="navbar-nav ml-auto">-->
-
-                    <!--                            &lt;!&ndash; Nav Item - Search Dropdown (Visible Only XS) &ndash;&gt;-->
-                    <!--                            <li class="nav-item dropdown no-arrow d-sm-none">-->
-                    <!--                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"-->
-                    <!--                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                    <!--                                    <i class="fas fa-search fa-fw"></i>-->
-                    <!--                                </a>-->
-                    <!--                                &lt;!&ndash; Dropdown - Messages &ndash;&gt;-->
-                    <!--                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated&#45;&#45;grow-in"-->
-                    <!--                                     aria-labelledby="searchDropdown">-->
-                    <!--                                    <form class="form-inline mr-auto w-100 navbar-search">-->
-                    <!--                                        <div class="input-group">-->
-                    <!--                                            <input type="text" class="form-control bg-light border-0 small"-->
-                    <!--                                                   placeholder="Search for..." aria-label="Search"-->
-                    <!--                                                   aria-describedby="basic-addon2">-->
-                    <!--                                            <div class="input-group-append">-->
-                    <!--                                                <button class="btn btn-primary" type="button">-->
-                    <!--                                                    <i class="fas fa-search fa-sm"></i>-->
-                    <!--                                                </button>-->
-                    <!--                                            </div>-->
-                    <!--                                        </div>-->
-                    <!--                                    </form>-->
-                    <!--                                </div>-->
-                    <!--                            </li>-->
-
-                    <!--                            <div class="topbar-divider d-none d-sm-block"></div>-->
-
-                    <!--                        </ul>-->
-                </div>
-                <div class="card shadow mb-4">
-                    <div class="card-body" width="100%">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Block Table</h6>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead>
-                                <tr>
-                                    <th>Number</th>
-                                    <th>DS Block Number</th>
-                                    <th>TimeStamp</th>
-                                    <th>Version</th>
-                                    <th>Gas Limit</th>
-                                    <th>Gas Use</th>
-                                    <th>MB Info Hash</th>
-                                    <th>Num Micro Blocks</th>
-                                    <th>Num Present Transactions</th>
-                                    <th>Num Transactions</th>
-                                    <th>Prev Block Hash</th>
-                                    <th>Rewards</th>
-                                    <th>State Delta Hash</th>
-                                    <th>State Root Hash</th>
-                                    <th>Tx Leader PubKey</th>
-                                    <th>Tx Leader Address</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Number</th>
-                                    <th>DS Block Number</th>
-                                    <th>TimeStamp</th>
-                                    <th>Version</th>
-                                    <th>Gas Limit</th>
-                                    <th>Gas Use</th>
-                                    <th>MB Info Hash</th>
-                                    <th>Num Micro Blocks</th>
-                                    <th>Num Present Transactions</th>
-                                    <th>Num Transactions</th>
-                                    <th>Prev Block Hash</th>
-                                    <th>Rewards</th>
-                                    <th>State Delta Hash</th>
-                                    <th>State Root Hash</th>
-                                    <th>Tx Leader PubKey</th>
-                                    <th>Tx Leader Address</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                <tr th:each="block : ${blocks}">
-                                    <td th:text="${block.number}"></td>
-                                    <td th:text="${block.dsBlockNumber}"></td>
-                                    <td th:text="${block.timestamp}"></td>
-                                    <td th:text="${block.version}"></td>
-                                    <td th:text="${block.gasLimit}"></td>
-                                    <td th:text="${block.gasUse}"></td>
-                                    <td th:text="${block.mbInfoHash}"></td>
-                                    <td th:text="${block.numMicroBlocks}"></td>
-                                    <td th:text="${block.numPresentTransactions}"></td>
-                                    <td th:text="${block.numTransactions}"></td>
-                                    <td th:text="${block.prevBlockHash}"></td>
-                                    <td th:text="${block.rewards}"></td>
-                                    <td th:text="${block.stateDeltaHash}"></td>
-                                    <td th:text="${block.stateRootHash}"></td>
-                                    <td th:text="${block.txLeaderPubKey}"></td>
-                                    <td th:text="${block.txLeaderAddress}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-<!--                            Pagination  -->
-<!--                            <nav aria-label="...">-->
-<!--                                <ul class="pagination" >-->
-<!--                                    <li th:if= "${currentPage != 0}" class="page-item ">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${currentPage - 1}}" class="page-link">Previous</a>-->
-<!--                                    </li >-->
-<!--                                    <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${i - 1}}" class="page-link" href="#">-->
-<!--                                             <span th:text = "${i}">-->
-<!--                                             </span></a></li>-->
-<!--                                    <li th:if = "${currentPage + 1 != totalPages}" class="page-item">-->
-<!--                                        <a th:href = "@{'/user/home/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </nav>-->
-<!--                            Pagination  -->
-                        </div>
-                    </div>
                 </div>
             <!-- End of Footer --->
         </div>
@@ -475,39 +379,39 @@
     <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
     <script src="https://kit.fontawesome.com/d51c9bc111.js" crossorigin="anonymous"></script>
 
-        <script>
-            var confirmationModal = document.getElementById("confirmationModal");
-            var loadingModal = document.getElementById("loadingModal");
+    <script>
+        var confirmationModal = document.getElementById("confirmationModal");
+        var loadingModal = document.getElementById("loadingModal");
 
-            function showConfirmation() {
-                // Show confirmation modal
-                confirmationModal.style.display = "block";
-            }
+        function showConfirmation() {
+            // Show confirmation modal
+            confirmationModal.style.display = "block";
+        }
 
-            function hideConfirmation() {
-                // Hide confirmation modal
-                confirmationModal.style.display = "none";
-            }
+        function hideConfirmation() {
+            // Hide confirmation modal
+            confirmationModal.style.display = "none";
+        }
 
-            function startBatch() {
+        function startBatch() {
 
-                loadingModal.style.display = "block";
+            loadingModal.style.display = "block";
 
-                fetch("/user/run-batch")
-                    .then(response => response.text())
-                    .then(data => {
-                        console.log(data);
-                        setTimeout(() => {
-                            loadingModal.style.display = "none";
-                        }, 20000);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        // Handle error and hide loading modal
+            fetch("/user/run-batch")
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    setTimeout(() => {
                         loadingModal.style.display = "none";
-                    });
-            }
-        </script>
+                    }, 20000);
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Handle error and hide loading modal
+                    loadingModal.style.display = "none";
+                });
+        }
+    </script>
 
 </body>
 

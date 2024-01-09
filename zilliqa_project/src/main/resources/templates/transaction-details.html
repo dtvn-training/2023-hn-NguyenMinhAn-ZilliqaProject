@@ -76,18 +76,15 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                   aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>Account Administration</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
+                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <h6 class="collapse-header">Option</h6>
+                        <a class="collapse-item" href="utilities-color.html" th:href="@{/user/account}">Customer Accounts</a>
                     </div>
                 </div>
             </li>
@@ -353,6 +350,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -370,6 +368,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -387,6 +386,17 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="transaction : ${transactions}">
+                                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${!#lists.contains(redisTransactions, transaction.t_id)}">
+                                            <a th:href="@{/user/update-transaction-t/{id}(id = ${transaction.t_id})}" class="btn btn-outline-warning">
+                                                Edit
+                                            </a>
+                                            <input type = "hidden" th:value = "${transaction.t_id}" name = "id" class = "form-control">
+                                        </td>
+                                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${#lists.contains(redisTransactions, transaction.t_id)}">
+                                            <a class="btn btn-outline-secondary">
+                                                View only
+                                            </a>
+                                        </td>
                                         <td th:text="${transaction.blocks.number}"></td>
                                         <td th:text="${transaction.t_id}"></td>
                                         <td th:text="${transaction.blockTimestamp}"></td>
@@ -429,6 +439,7 @@
                                 <table class="table table-bordered" id="dataTable">
                                     <thead>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -440,6 +451,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
                                         <th>Block Number</th>
                                         <th>ID</th>
                                         <th>TimeStamp</th>
@@ -451,6 +463,18 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="exception : ${exceptions}">
+                                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${#lists.contains(redisExceptions, exception.e_id)}">
+                                            <a class="btn btn-outline-secondary">
+                                                View only
+                                            </a>
+                                            <input type = "hidden" th:value = "${exception.e_id}" name = "id" class = "form-control">
+                                        </td>
+                                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${!#lists.contains(redisExceptions, exception.e_id)}">
+                                            <a th:href="@{/user/update-exception-t/{id}/{t_id} (id = ${exception.e_id}, t_id = ${transactions.t_id})}" class="btn btn-outline-warning">
+                                                Edit
+                                            </a>
+                                            <input type = "hidden" th:value = "${exception.e_id}" name = "id" class = "form-control">
+                                        </td>
                                         <td th:text="${exception.blocks.number}"></td>
                                         <td th:text="${exception.e_id}"></td>
                                         <td th:text="${exception.blockTimestamp}"></td>
