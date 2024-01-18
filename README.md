@@ -36,7 +36,10 @@ You need to have git in desktop and perform these scripts
   - Go to resources -> Create a SecretKey folder -> save credential file to this folder
   - Get path to this credential file
   - Go to BigQueryService file and add path of credential file
-  Example: File file = new File("D:\\Workspace\\Spring\\ZilliqaProject\\2023-hn-NguyenMinhAn-ZilliqaProject\\zilliqa_project\\src\\main\\resources\\SecretKey\\blissful-hash-405809-c65665ec1609.json");
+  - Example: 
+    ```
+    File file = new File("D:\\Workspace\\Spring\\ZilliqaProject\\2023-hn-NguyenMinhAn-ZilliqaProject\\zilliqa_project\\src\\main\\resources\\SecretKey\\blissful-hash-405809-c65665ec1609.json");
+    ```
 
 ## 4. Setup Redis:
 - You need to download Redis: [Redis Download](https://redis.io/download/)
